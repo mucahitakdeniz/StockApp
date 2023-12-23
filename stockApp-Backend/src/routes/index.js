@@ -16,10 +16,10 @@ router.use('/users', require('./user'))
 
 /// brand:
 
-// router.use('/brands', require('./brand'))
+router.use('/brands', require('./brand'))
 
 // category:
-// router.use('/categories', require('./category'))
+router.use('/categories', require('./category'))
  
 // firm:
 // router.use('/firms', require('./firm'))
