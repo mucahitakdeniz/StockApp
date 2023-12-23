@@ -44,7 +44,6 @@ module.exports ={
     //   req.body.is_staff = false;
     //   req.body.is_superadmin = false;
     // }
-    console.log(req.body);
     const data = await User.create(req.body);
 
     res.status(200).send({
