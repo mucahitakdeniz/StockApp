@@ -2,7 +2,7 @@
 
 const User = require("../models/user");
 
-module.exports({
+module.exports ={
   list: async (req, res) => {
     /*
             #swagger.tags = ["Users"]
@@ -16,11 +16,13 @@ module.exports({
                 </ul>
             `
         */
-    const filters = req.user?.is_superadmin ? {} : { _id: req.user._id };
+    const filters = {} 
+    // const filters = req.user?.is_superadmin ? {} : { _id: req.user._id };
 
-    const data = await res.getModelList(User, filters);
+    const data = await res.getModelList(User);
 
-    res.status(200).send(data);
+    res.status(200).send({data
+       });
   },
   create: async (req, res) => {
     /*
@@ -38,10 +40,11 @@ module.exports({
                 }
             }
         */
-    if (!req.user?.is_superadmin) {
-      req.body.is_staff = false;
-      req.body.is_superadmin = false;
-    }
+    // if (!req.user?.is_superadmin) {
+    //   req.body.is_staff = false;
+    //   req.body.is_superadmin = false;
+    // }
+    console.log(req.body);
     const data = await User.create(req.body);
 
     res.status(200).send({
@@ -106,5 +109,5 @@ module.exports({
         data
     });
   },
-});
+};
                        

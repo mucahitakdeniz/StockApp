@@ -97,6 +97,7 @@ UserShema.pre(['save','updateOne'],function(next){
         
         this.password= pasEnc(data.password)
         this._update=data
+        next()
 
     } else {
         if(!isEmailValidated) next('Email not validated')

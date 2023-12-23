@@ -9,7 +9,7 @@ router
   .route("/:id")
   .get(user.read)
   .put(user.update)
-  .patch(user.create)
+  .patch(user.update)
   .delete(user.delete);
 
-  module.export=router
+  module.exports=router
