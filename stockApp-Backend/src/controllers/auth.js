@@ -6,13 +6,26 @@ const passEnc = require("../helpers/passwordEncrypt");
 
 module.exports = {
   login: async (req, res) => {
+     /*
+            #swagger.tags = ["Authentication"]
+            #swagger.summary = "Login"
+            #swagger.description = 'Login with username (or email) and password.'
+            #swagger.parameters["body"] = {
+                in: "body",
+                required: true,
+                schema: {
+                    "username": "test",
+                    "password": "1234",
+                }
+            }
+        */
     const { email, username, password } = req.body;
     if ((email || username) && password) {
       const user = await User.findOne({ $or: [{ email }, { username }] });
 
       if (user && user.password == passEnc(password)) {
         if (user.is_active) {
-          let tokenData = await Token.findOne({ _id: user._id });
+          let tokenData = await Token.findOne({ user_id: user._id });
           if (tokenData) {
             res.send({ token: tokenData, user });
           } else {
@@ -36,6 +49,21 @@ module.exports = {
     }
   },
   logout: async (req, res) => {
-    
+     /*
+            #swagger.tags = ["Authentication"]
+            #swagger.summary = "Logout"
+            #swagger.description = 'Delete token key.'
+        */
+    const auth = req.headers?.authorization || null;
+    const token = auth ? auth.split(" ") : null;
+
+    if (token && token[0] === "Token") {
+      const data = await Token.deleteOne({
+        token: token});
+      res.send({
+        message:' Logout was ok',
+        data,
+      });
+    }
   },
 };
