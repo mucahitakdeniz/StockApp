@@ -2,9 +2,9 @@
 
 const Sale = require("../models/sale");
 
-module.exports ={
+module.exports = {
   list: async (req, res) => {
-      /*
+    /*
             #swagger.tags = ["Sales"]
             #swagger.summary = "List Sales"
             #swagger.description = `
@@ -17,12 +17,12 @@ module.exports ={
             `
         */
 
-    const data = await res.getModelList(Sale,{},['brand_id','product_id']);
+    const data = await res.getModelList(Sale, {}, ["brand_id", "product_id"]);
 
     res.status(200).send(data);
   },
   create: async (req, res) => {
-     /*
+    /*
             #swagger.tags = ["Sales"]
             #swagger.summary = "Create Sale"
             #swagger.parameters['body'] = {
@@ -31,18 +31,22 @@ module.exports ={
                 schema: { $ref: '#/definitions/Sale' }
             }
         */
- 
+    req.body.user_id = req.user?._id;
+
     const data = await Sale.create(req.body);
 
     res.status(200).send(data);
   },
   read: async (req, res) => {
-     /*
+    /*
             #swagger.tags = ["Sales"]
             #swagger.summary = "Get Single Sale"
         */
-  
-    const data = await Sale.findOne({_id: req.params.id}).populate(['brand_id','product_id'])
+
+    const data = await Sale.findOne({ _id: req.params.id }).populate([
+      "brand_id",
+      "product_id",
+    ]);
 
     res.status(200).send(data);
   },
@@ -56,27 +60,25 @@ module.exports ={
                 schema: { $ref: '#/definitions/Sale' }
             }
         */
-    
-    const data = await Sale.updateOne({_id: req.params.id}, req.body)
+
+    const data = await Sale.updateOne({ _id: req.params.id }, req.body);
 
     res.status(202).send({
       data,
-      new: await Sale.findOne({_id: req.params.id}),
-    })
+      new: await Sale.findOne({ _id: req.params.id }),
+    });
   },
   delete: async (req, res) => {
     /*
             #swagger.tags = ["Sales"]
             #swagger.summary = "Delete Sale"
         */
-  
 
     const data = await Sale.deleteOne({ _id: req.params.id });
 
     res.status(data.deletedCount ? 204 : 404).send({
-        error: !data.deletedCount,
-        data
+      error: !data.deletedCount,
+      data,
     });
   },
 };
-                       

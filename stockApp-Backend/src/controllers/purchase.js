@@ -2,9 +2,9 @@
 
 const Purchase = require("../models/purchase");
 
-module.exports ={
+module.exports = {
   list: async (req, res) => {
-      /*
+    /*
             #swagger.tags = ["Purchases"]
             #swagger.summary = "List Purchases"
             #swagger.description = `
@@ -17,12 +17,16 @@ module.exports ={
             `
         */
 
-    const data = await res.getModelList(Purchase,{},['firm_id','brand_id','product_id']);
+    const data = await res.getModelList(Purchase, {}, [
+      "firm_id",
+      "brand_id",
+      "product_id",
+    ]);
 
     res.status(200).send(data);
   },
   create: async (req, res) => {
-     /*
+    /*
             #swagger.tags = ["Purchases"]
             #swagger.summary = "Create Purchase"
             #swagger.parameters['body'] = {
@@ -31,18 +35,23 @@ module.exports ={
                 schema: { $ref: '#/definitions/Purchase' }
             }
         */
- 
+    req.body.user_id = req.user?._id;
+
     const data = await Purchase.create(req.body);
 
     res.status(200).send(data);
   },
   read: async (req, res) => {
-     /*
+    /*
             #swagger.tags = ["Purchases"]
             #swagger.summary = "Get Single Purchase"
         */
-  
-    const data = await Purchase.findOne({_id: req.params.id}).populate(['firm_id','brand_id','product_id'])
+
+    const data = await Purchase.findOne({ _id: req.params.id }).populate([
+      "firm_id",
+      "brand_id",
+      "product_id",
+    ]);
 
     res.status(200).send(data);
   },
@@ -56,27 +65,25 @@ module.exports ={
                 schema: { $ref: '#/definitions/Purchase' }
             }
         */
-    
-    const data = await Purchase.updateOne({_id: req.params.id}, req.body)
+
+    const data = await Purchase.updateOne({ _id: req.params.id }, req.body);
 
     res.status(202).send({
       data,
-      new: await Purchase.findOne({_id: req.params.id}),
-    })
+      new: await Purchase.findOne({ _id: req.params.id }),
+    });
   },
   delete: async (req, res) => {
     /*
             #swagger.tags = ["Purchases"]
             #swagger.summary = "Delete Purchase"
         */
-  
 
     const data = await Purchase.deleteOne({ _id: req.params.id });
 
     res.status(data.deletedCount ? 204 : 404).send({
-        error: !data.deletedCount,
-        data
+      error: !data.deletedCount,
+      data,
     });
   },
 };
-                       
