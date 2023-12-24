@@ -38,18 +38,18 @@ app.use(require('./src/middlewares/findSearchSortPage'))
 // Routes:
 
 // HomePath:
-// app.all('/', (req, res) => {
-//     res.send({
-//         error: false,
-//         message: 'Welcome to Stock Management API',
-//         documents: {
-//             swagger: '/documents/swagger',
-//             redoc: '/documents/redoc',
-//             json: '/documents/json',
-//         },
-//         user: req.user
-//     })
-// })
+app.all('/', (req, res) => {
+    res.send({
+        error: false,
+        message: 'Welcome to Stock Management API',
+        documents: {
+            swagger: '/documents/swagger',
+            redoc: '/documents/redoc',
+            json: '/documents/json',
+        },
+        user: req.user
+    })
+})
 
 // Routes:
 app.use(require('./src/routes'))
