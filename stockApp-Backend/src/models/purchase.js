@@ -37,11 +37,14 @@ const PurchaseSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    price: {
+      type: Number,
+      default: 0,
+    },
     price_total: {
       type: Number,
-      default: function () { return this.price * this.quantity }, // for CREATE
-      transform: function () { return this.price * this.quantity }, // for UPDATE
-      set: function () { return this.price * this.quantity } // for sendingData
+      default: function () { return this.price * this.quantity },
+      transform: function () { return this.price * this.quantity },
   }
   },
   { collection: "purchases", timestamps: true }

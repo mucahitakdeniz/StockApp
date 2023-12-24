@@ -17,7 +17,7 @@ const ProducrSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    quantity: {
+    stock: {
       type: Number,
       default: 0,
     },

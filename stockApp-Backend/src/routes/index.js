@@ -31,7 +31,7 @@ router.use('/firms', require('./firm'))
 router.use('/purchases', require('./purchase'))
 
 // sale:
-// router.use('/sales', require('./sale'))
+router.use('/sales', require('./sale'))
 
 // document:
 router.use('/documents', require('./document'))
