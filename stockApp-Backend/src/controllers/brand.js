@@ -19,8 +19,7 @@ module.exports ={
 
     const data = await res.getModelList(Brand);
 
-    res.status(200).send({data
-       });
+    res.status(200).send(data);
   },
   create: async (req, res) => {
       /*
@@ -35,9 +34,7 @@ module.exports ={
  
     const data = await Brand.create(req.body);
 
-    res.status(200).send({
-      data,
-    });
+    res.status(200).send(data);
   },
   read: async (req, res) => {
      /*

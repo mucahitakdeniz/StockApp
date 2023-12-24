@@ -21,8 +21,7 @@ module.exports ={
 
     const data = await res.getModelList(User);
 
-    res.status(200).send({data
-       });
+    res.status(200).send(data);
   },
   create: async (req, res) => {
     /*
@@ -46,9 +45,7 @@ module.exports ={
     // }
     const data = await User.create(req.body);
 
-    res.status(200).send({
-      data,
-    });
+    res.status(200).send(data);
   },
   read: async (req, res) => {
     /*

@@ -22,7 +22,7 @@ router.use('/brands', require('./brand'))
 router.use('/categories', require('./category'))
  
 // firm:
-// router.use('/firms', require('./firm'))
+router.use('/firms', require('./firm'))
 
 // product:
 // router.use('/products', require('./product'))
