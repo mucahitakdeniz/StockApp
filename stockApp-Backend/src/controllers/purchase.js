@@ -17,7 +17,7 @@ module.exports ={
             `
         */
 
-    const data = await res.getModelList(Purchase);
+    const data = await res.getModelList(Purchase,{},['firm_id','brand_id','product_id']);
 
     res.status(200).send(data);
   },
@@ -42,7 +42,7 @@ module.exports ={
             #swagger.summary = "Get Single Purchase"
         */
   
-    const data = await Purchase.findOne({_id: req.params.id});
+    const data = await Purchase.findOne({_id: req.params.id}).populate(['firm_id','brand_id','product_id'])
 
     res.status(200).send(data);
   },

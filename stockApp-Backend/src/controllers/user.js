@@ -16,10 +16,10 @@ module.exports ={
                 </ul>
             `
         */
-    const filters = {} 
-    // const filters = req.user?.is_superadmin ? {} : { _id: req.user._id };
+     
+    const filters = req.user?.is_superadmin ? {} : { _id: req.user._id };
 
-    const data = await res.getModelList(User);
+    const data = await res.getModelList(User,filters);
 
     res.status(200).send(data);
   },
@@ -39,10 +39,10 @@ module.exports ={
                 }
             }
         */
-    // if (!req.user?.is_superadmin) {
-    //   req.body.is_staff = false;
-    //   req.body.is_superadmin = false;
-    // }
+    if (!req.user?.is_superadmin) {
+      req.body.is_staff = false;
+      req.body.is_superadmin = false;
+    }
     const data = await User.create(req.body);
 
     res.status(200).send(data);
@@ -76,10 +76,10 @@ module.exports ={
                 }
             }
         */
-    if (!req.user?.is_superadmin) {
-      req.body.is_staff = false;
-      req.body.is_superadmin = false;
-    }
+  
+      req.body.is_staff = (req.user?.is_superadmin || !req.user?.is_staff) ? true : false
+      req.body.is_superadmin =!req.user?.is_superadmin ? true :  false;
+    
     const filters = req.user?.is_superadmin ? {_id: req.params.id}: {_id: req.user._id}
   
     const data = await User.updateOne(filters, req.body)
