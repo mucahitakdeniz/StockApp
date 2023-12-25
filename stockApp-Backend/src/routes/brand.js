@@ -12,8 +12,8 @@ router
 router
   .route("/:id")
   .get(permissions.is_staff, brand.read)
-  .put(permissions.is_staff, brand.update)
-  .patch(permissions.is_staff, brand.update)
+  .put(permissions.is_admin, brand.update)
+  .patch(permissions.is_admin, brand.update)
   .delete(permissions.is_admin, brand.delete);
 
 module.exports = router;

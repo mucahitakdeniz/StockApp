@@ -14,6 +14,6 @@ router
   .get(permissions.is_staff, purchase.read)
   .put(permissions.is_staff, purchase.update)
   .patch(permissions.is_staff, purchase.update)
-  .delete(permissions.is_admin, purchase.delete);
+  .delete(permissions.is_staff, purchase.delete);
 
 module.exports = router;
