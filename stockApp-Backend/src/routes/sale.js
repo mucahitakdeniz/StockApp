@@ -4,12 +4,17 @@ const router = require("express").Router();
 
 const sale = require("../controllers/sale");
 
-router.route("/").get(sale.list).post(sale.create);
+const permissions = require("../middlewares/permissions");
+
+router
+  .route("/")
+  .get(permissions.is_staff, sale.list)
+  .post(permissions.is_staff, sale.create);
 router
   .route("/:id")
-  .get(sale.read)
-  .put(sale.update)
-  .patch(sale.update)
-  .delete(sale.delete);
+  .get(permissions.is_staff, sale.read)
+  .put(permissions.is_staff, sale.update)
+  .patch(permissions.is_staff, sale.update)
+  .delete(permissions.is_admin, sale.delete);
 
-  module.exports=router
+module.exports = router;

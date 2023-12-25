@@ -3,13 +3,17 @@
 const router = require("express").Router();
 
 const category = require("../controllers/category");
+const permissions = require("../middlewares/permissions");
 
-router.route("/").get(category.list).post(category.create);
+router
+  .route("/")
+  .get(permissions.is_staff, category.list)
+  .post(permissions.is_staff, category.create);
 router
   .route("/:id")
-  .get(category.read)
-  .put(category.update)
-  .patch(category.update)
-  .delete(category.delete);
+  .get(permissions.is_staff, category.read)
+  .put(permissions.is_staff, category.update)
+  .patch(permissions.is_staff, category.update)
+  .delete(permissions.is_admin, category.delete);
 
-  module.exports=router
+module.exports = router;

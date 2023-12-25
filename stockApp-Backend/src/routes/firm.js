@@ -4,12 +4,17 @@ const router = require("express").Router();
 
 const firm = require("../controllers/firm");
 
-router.route("/").get(firm.list).post(firm.create);
+const permissions = require("../middlewares/permissions");
+
+router
+  .route("/")
+  .get(permissions.is_staff, firm.list)
+  .post(permissions.is_staff, firm.create);
 router
   .route("/:id")
-  .get(firm.read)
-  .put(firm.update)
-  .patch(firm.update)
-  .delete(firm.delete);
+  .get(permissions.is_staff, firm.read)
+  .put(permissions.is_staff, firm.update)
+  .patch(permissions.is_staff, firm.update)
+  .delete(permissions.is_admin, firm.delete);
 
-  module.exports=router
+module.exports = router;

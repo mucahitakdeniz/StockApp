@@ -4,12 +4,17 @@ const router = require("express").Router();
 
 const product = require("../controllers/product");
 
-router.route("/").get(product.list).post(product.create);
+const permissions = require("../middlewares/permissions");
+
+router
+  .route("/")
+  .get(permissions.is_staff, product.list)
+  .post(permissions.is_staff, product.create);
 router
   .route("/:id")
-  .get(product.read)
-  .put(product.update)
-  .patch(product.update)
-  .delete(product.delete);
+  .get(permissions.is_staff, product.read)
+  .put(permissions.is_staff, product.update)
+  .patch(permissions.is_staff, product.update)
+  .delete(permissions.is_admin, product.delete);
 
-  module.exports=router
+module.exports = router;
