@@ -1,6 +1,7 @@
 "use strict";
 
 const Purchase = require("../models/purchase");
+const Product = require("../models/product");
 
 module.exports = {
   list: async (req, res) => {
@@ -39,6 +40,11 @@ module.exports = {
 
     const data = await Purchase.create(req.body);
 
+    //update Product
+    const product = await Product.findOne({ _id: req.body.product_id });
+    product.stock = +product.stock + +req.body.quantity;
+    const newData = await Product.updateOne({ _id: product._id }, product);
+
     res.status(200).send(data);
   },
   read: async (req, res) => {
@@ -67,6 +73,12 @@ module.exports = {
         */
 
     const data = await Purchase.updateOne({ _id: req.params.id }, req.body);
+
+    const purchase = await Purchase.findOne({ _id: req.params.id });
+    const product = await Product.findOne({ _id: purchase.product_id });
+    product.stock = product.stock - (req.body.quantity - purchase.quantity)
+
+    const newData = await Product.updateOne({ _id: product._id }, product);
 
     res.status(202).send({
       data,
