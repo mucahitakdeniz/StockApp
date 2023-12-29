@@ -38,24 +38,16 @@ module.exports = {
         */
     req.body.user_id = req.user?._id;
 
-    if (req.body.price < 0) {
-      error: true,
-        res.status(400).send({
-          message: "The price must be greater than 0",
-        });
-      return;
+    if (req.body?.price < 0) {
+      res.errorStatusCode = 400;
+      throw new Error("The price must be greater than 0");
     }
-
-    if (req.body.quantity < 0) {
-      res.status(400).send({
-        error: true,
-        message: "The quantity must be greater than 0",
-      });
-      return;
+    if (req.body?.quantity < 0) {
+      res.errorStatusCode = 400;
+      throw new Error("The quantity must be greater than 0");
     }
 
     const data = await Purchase.create(req.body);
-
     const updateProduct = await Product.updateOne(
       { _id: req.body.product_id },
       { $inc: { stock: data.quantity } }
@@ -88,20 +80,14 @@ module.exports = {
             }
         */
     if (req.body.price && req.body.price < 0) {
-      res.status(400).send({
-        error: true,
-        message: "The price must be greater than 0",
-      });
-      return;
+      res.errorStatusCode = 400;
+      throw new Error("The price must be greater than 0");
     }
 
-    if (req.body.quantity && req.body.quantity !== undefined) {
+    if (req.body?.quantity) {
       if (req.body.quantity < 0) {
-        res.status(400).send({
-          error: true,
-          message: "The quantity must be greater than 0",
-        });
-        return;
+        res.errorStatusCode = 400;
+        throw new Error("The quantity must be greater than 0");
       }
       const currentPurchase = await Purchase.findOne({ _id: req.params.id });
       const quantity = req.body.quantity - currentPurchase.quantity;
@@ -113,10 +99,10 @@ module.exports = {
 
     const data = await Purchase.updateOne({ _id: req.params.id }, req.body);
 
-    const updateProduct = await Product.updateOne(
-      { _id: req.body.product_id },
-      { $inc: { stock: data.quantity } }
-    );
+    // const updateProduct = await Product.updateOne(
+    //   { _id: req.body.product_id },
+    //   { $inc: { stock: data.quantity } }
+    // );
 
     res.status(202).send({
       data,

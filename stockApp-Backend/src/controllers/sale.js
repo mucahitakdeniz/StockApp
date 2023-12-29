@@ -1,6 +1,8 @@
 "use strict";
 
 const Sale = require("../models/sale");
+const Product = require("../models/product");
+const { Error } = require("mongoose");
 
 module.exports = {
   list: async (req, res) => {
@@ -33,9 +35,31 @@ module.exports = {
         */
     req.body.user_id = req.user?._id;
 
-    const data = await Sale.create(req.body);
+    if (req.body?.price < 0) {
+      res.errorStatusCode = 400;
+      throw new Error("The price must be greater than 0");
+    }
+    if (req.body?.quantity < 0) {
+      res.errorStatusCode = 400;
+      throw new Error("The quantity must be greater than 0");
+    }
 
-    res.status(200).send(data);
+    const currentProduct = await Product.findOne({ _id: req.body.product_id });
+
+    if (currentProduct.stock >= req.body.quantity) {
+      const updataProduct = await Product.updateOne(
+        { _id: req.body.product_id },
+        { $inc: { stock: -req.body.quantity } }
+      );
+      const data = await Sale.create(req.body);
+
+      res.status(200).send(data);
+    } else {
+      res.errorStatusCode = 401;
+      throw new Error("There are not enough products in stock", {
+        cause: currentProduct,
+      });
+    }
   },
   read: async (req, res) => {
     /*
@@ -60,6 +84,14 @@ module.exports = {
                 schema: { $ref: '#/definitions/Sale' }
             }
         */
+    if (req.body?.price < 0) {
+      res.errorStatusCode = 400;
+      throw new Error("The price must be greater than 0");
+    }
+    if (req.body?.quantity < 0) {
+      res.errorStatusCode = 400;
+      throw new Error("The quantity must be greater than 0");
+    }
 
     const data = await Sale.updateOne({ _id: req.params.id }, req.body);
 
@@ -73,8 +105,13 @@ module.exports = {
             #swagger.tags = ["Sales"]
             #swagger.summary = "Delete Sale"
         */
+    const currentSale = await Sale.findOne({ _id: req.params.id });
 
     const data = await Sale.deleteOne({ _id: req.params.id });
+    const updataProduct = await Product.updateOne(
+      { _id: currentSale.product_id },
+      { $inc: { stock: currentSale.quantity } }
+    );
 
     res.status(data.deletedCount ? 204 : 404).send({
       error: !data.deletedCount,
