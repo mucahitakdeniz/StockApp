@@ -38,12 +38,28 @@ module.exports = {
         */
     req.body.user_id = req.user?._id;
 
+    if (req.body.price < 0) {
+      error: true,
+        res.status(400).send({
+          message: "The price must be greater than 0",
+        });
+      return;
+    }
+
+    if (req.body.quantity < 0) {
+      res.status(400).send({
+        error: true,
+        message: "The quantity must be greater than 0",
+      });
+      return;
+    }
+
     const data = await Purchase.create(req.body);
 
-    //update Product
-    const product = await Product.findOne({ _id: req.body.product_id });
-    product.stock = +product.stock + +req.body.quantity;
-    const newData = await Product.updateOne({ _id: product._id }, product);
+    const updateProduct = await Product.updateOne(
+      { _id: req.body.product_id },
+      { $inc: { stock: data.quantity } }
+    );
 
     res.status(200).send(data);
   },
@@ -71,14 +87,36 @@ module.exports = {
                 schema: { $ref: '#/definitions/Purchase' }
             }
         */
+    if (req.body.price && req.body.price < 0) {
+      res.status(400).send({
+        error: true,
+        message: "The price must be greater than 0",
+      });
+      return;
+    }
+
+    if (req.body.quantity && req.body.quantity !== undefined) {
+      if (req.body.quantity < 0) {
+        res.status(400).send({
+          error: true,
+          message: "The quantity must be greater than 0",
+        });
+        return;
+      }
+      const currentPurchase = await Purchase.findOne({ _id: req.params.id });
+      const quantity = req.body.quantity - currentPurchase.quantity;
+      const updateProduct = await Product.updateOne(
+        { _id: currentPurchase.product_id },
+        { $inc: { stock: +quantity } }
+      );
+    }
 
     const data = await Purchase.updateOne({ _id: req.params.id }, req.body);
 
-    const purchase = await Purchase.findOne({ _id: req.params.id });
-    const product = await Product.findOne({ _id: purchase.product_id });
-    product.stock = product.stock - (req.body.quantity - purchase.quantity)
-
-    const newData = await Product.updateOne({ _id: product._id }, product);
+    const updateProduct = await Product.updateOne(
+      { _id: req.body.product_id },
+      { $inc: { stock: data.quantity } }
+    );
 
     res.status(202).send({
       data,
@@ -90,8 +128,12 @@ module.exports = {
             #swagger.tags = ["Purchases"]
             #swagger.summary = "Delete Purchase"
         */
-
+    const currentPurchase = await Purchase.findOne({ _id: req.params.id });
     const data = await Purchase.deleteOne({ _id: req.params.id });
+    const updateProduct = await Product.updateOne(
+      { _id: currentPurchase.product_id },
+      { $inc: { stock: -currentPurchase.quantity } }
+    );
 
     res.status(data.deletedCount ? 204 : 404).send({
       error: !data.deletedCount,
