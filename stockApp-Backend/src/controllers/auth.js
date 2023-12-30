@@ -125,14 +125,21 @@ module.exports = {
     const auth = req.headers?.authorization || null;
     const token = auth ? auth.split(" ") : null;
 
+    let message = null, result = {}
+
+
     if (token && token[0] === "Token") {
-      const data = await Token.deleteOne({
-        token: token,
+      result = await Token.deleteOne({
+        token: token[1]
       });
-      res.send({
-        message: " Logout was ok",
-        data,
-      });
-    }
-  },
-};
+      message= " Logout was ok"
+    } else if (token && token[0] === "Bearer") {
+      message = 'No need any process for logout. You must delete JWT tokens.' }
+
+    
+    res.send({
+      message,
+      result
+    });
+  }
+}

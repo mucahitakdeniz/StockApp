@@ -21,6 +21,5 @@ module.exports = async (req, res, next) => {
       (err, userData) => req.user = userData
     );
   }
-console.log(req.user);
   next();
 };
