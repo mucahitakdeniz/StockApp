@@ -55,7 +55,7 @@ module.exports = {
 
       res.status(200).send(data);
     } else {
-      res.errorStatusCode = 401;
+      res.errorStatusCode = 422;
       throw new Error("There are not enough products in stock", {
         cause: currentProduct,
       });
@@ -88,9 +88,25 @@ module.exports = {
       res.errorStatusCode = 400;
       throw new Error("The price must be greater than 0");
     }
-    if (req.body?.quantity < 0) {
-      res.errorStatusCode = 400;
-      throw new Error("The quantity must be greater than 0");
+
+    if (req.body?.quantity) {
+      if (req.body?.quantity < 0) {
+        res.errorStatusCode = 400;
+        throw new Error("The quantity must be greater than 0");
+      }
+
+      const currentSale = await Sale.findOne({ _id: req.params.id });
+
+      const quantity = req.body.quantity - currentSale.quantity;
+
+      const updateProduct = await Product.updateOne(
+        { _id: currentSale.product_id, stock: { $gte: quantity } },
+        { $inc: { stock: -quantity } }
+      );
+      if (updateProduct.modifiedCount == 0) {
+        res.errorStatusCode = 422;
+        throw new Error("There are not enough products in stock");
+      }
     }
 
     const data = await Sale.updateOne({ _id: req.params.id }, req.body);
