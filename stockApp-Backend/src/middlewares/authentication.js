@@ -3,6 +3,7 @@
 // app.use(authentication):
 
 const Token = require("../models/token");
+const Jwt = require("jsonwebtoken");
 
 module.exports = async (req, res, next) => {
   const auth = req.headers?.authorization || null;
@@ -13,7 +14,13 @@ module.exports = async (req, res, next) => {
       "user_id"
     );
     req.user = tokenData ? tokenData.user_id : undefined;
+  } else if (tokenKey && tokenKey[0] == "Bearer") {
+    Jwt.verify(
+      tokenKey[1],
+      process.env.ACCESS_KEY,
+      (err, userData) => req.user = userData
+    );
   }
-
+console.log(req.user);
   next();
 };
