@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 
 module.exports = {
   login: async (req, res) => {
-    /*
+       /*
             #swagger.tags = ["Authentication"]
             #swagger.summary = "Login"
             #swagger.description = 'Login with username (or email) and password.'
@@ -125,21 +125,21 @@ module.exports = {
     const auth = req.headers?.authorization || null;
     const token = auth ? auth.split(" ") : null;
 
-    let message = null, result = {}
-
+    let message = null,
+      result = {};
 
     if (token && token[0] === "Token") {
       result = await Token.deleteOne({
-        token: token[1]
+        token: token[1],
       });
-      message= " Logout was ok"
+      message = " Logout was ok";
     } else if (token && token[0] === "Bearer") {
-      message = 'No need any process for logout. You must delete JWT tokens.' }
+      message = "No need any process for logout. You must delete JWT tokens.";
+    }
 
-    
     res.send({
       message,
-      result
+      result,
     });
-  }
-}
+  },
+};
