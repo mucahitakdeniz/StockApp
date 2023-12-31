@@ -10,7 +10,7 @@ import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { Formik, Form } from "formik";
 import { object, string } from "yup";
-import { login } from "../service/autApiCall";
+import { login } from "../hooks/autApiCall";
 
 const Login = () => {
   const loginShema = object({
