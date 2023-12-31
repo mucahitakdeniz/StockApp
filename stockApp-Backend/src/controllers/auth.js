@@ -46,7 +46,8 @@ module.exports = {
           );
 
           res.send({
-            token: tokenData,
+            user,
+            token: tokenData.token,
             bearer: { accessToken, refreshToken },
           });
         } else {
