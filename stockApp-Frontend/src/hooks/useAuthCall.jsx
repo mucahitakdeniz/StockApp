@@ -7,6 +7,7 @@ import {
   fetchStart,
   loginSuccess,
   logoutSuccess,
+  registerSuccess,
 } from "../features/authSlice";
 
 const useAuthCall = () => {
@@ -39,10 +40,24 @@ const useAuthCall = () => {
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
-      toastErrorNotify("Logout not succesfull");
+      toastErrorNotify("Logout not succesful");
     }
   };
-  return { login, logout };
+  const register = async (values) => {
+    dispatch(fetchStart());
+    try {
+      console.log(values);
+      const { data } = await axios.post(`${URL}/users`, values);
+      dispatch(registerSuccess(data));
+      toastSuccessNotify("Register successful");
+      navigate("/stock");
+    } catch (error) {
+      console.log(error);
+      dispatch(fetchFail());
+      toastErrorNotify("Register failed");
+    }
+  };
+  return { login, logout, register };
 };
 
 export default useAuthCall;

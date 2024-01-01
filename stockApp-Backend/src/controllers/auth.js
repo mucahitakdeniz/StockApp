@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 
 module.exports = {
   login: async (req, res) => {
-       /*
+    /*
             #swagger.tags = ["Authentication"]
             #swagger.summary = "Login"
             #swagger.description = 'Login with username (or email) and password.'

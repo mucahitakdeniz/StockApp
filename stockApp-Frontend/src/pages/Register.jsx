@@ -5,15 +5,15 @@ import LockIcon from "@mui/icons-material/Lock";
 import image from "../assets/result.svg";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import { Link, useNavigate } from "react-router-dom";
-import TextField from "@mui/material/TextField";
+import { Link } from "react-router-dom";
 import { Formik } from "formik";
-import RegisterForm from "../components/RegisterForm";
+import RegisterForm,{ registerSchema } from "../components/RegisterForm";
+import useAuthCall from "../hooks/useAuthCall";
 
 const Register = () => {
+  const {register} =useAuthCall()
+
   const registerShema = {};
-  const navigate = useNavigate();
 
   return (
     <Container maxWidth="lg">
@@ -61,9 +61,9 @@ const Register = () => {
               first_name: "",
               last_name: "",
             }}
-            validationSchema={registerShema}
+            validationSchema={registerSchema}
             onSubmit={(values, action) => {
-              //register(values)
+              register(values)
               action.resetForm();
               action.setSubmitting(false);
             }}

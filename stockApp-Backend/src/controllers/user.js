@@ -78,7 +78,7 @@ module.exports ={
         */
   
       req.body.is_staff = (req.user?.is_superadmin || !req.user?.is_staff) ? true : false
-      req.body.is_superadmin =!req.user?.is_superadmin ? true :  false;
+      req.body.is_superadmin =req.user?.is_superadmin ? true :  false;
     
     const filters = req.user?.is_superadmin ? {_id: req.params.id}: {_id: req.user._id}
   
