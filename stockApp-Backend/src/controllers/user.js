@@ -2,7 +2,7 @@
 
 const User = require("../models/user");
 
-module.exports ={
+module.exports = {
   list: async (req, res) => {
     /*
             #swagger.tags = ["Users"]
@@ -16,10 +16,10 @@ module.exports ={
                 </ul>
             `
         */
-     
+
     const filters = req.user?.is_superadmin ? {} : { _id: req.user._id };
 
-    const data = await res.getModelList(User,filters);
+    const data = await res.getModelList(User, filters);
 
     res.status(200).send(data);
   },
@@ -44,6 +44,7 @@ module.exports ={
       req.body.is_superadmin = false;
     }
     const data = await User.create(req.body);
+    console.log(data);
 
     res.status(200).send(data);
   },
@@ -76,18 +77,21 @@ module.exports ={
                 }
             }
         */
-  
-      req.body.is_staff = (req.user?.is_superadmin || !req.user?.is_staff) ? true : false
-      req.body.is_superadmin =req.user?.is_superadmin ? true :  false;
-    
-    const filters = req.user?.is_superadmin ? {_id: req.params.id}: {_id: req.user._id}
-  
-    const data = await User.updateOne(filters, req.body)
+
+    req.body.is_staff =
+      req.user?.is_superadmin || !req.user?.is_staff ? true : false;
+    req.body.is_superadmin = req.user?.is_superadmin ? true : false;
+
+    const filters = req.user?.is_superadmin
+      ? { _id: req.params.id }
+      : { _id: req.user._id };
+
+    const data = await User.updateOne(filters, req.body);
 
     res.status(202).send({
       data,
       new: await User.findOne(filters),
-    })
+    });
   },
   delete: async (req, res) => {
     /*
@@ -101,9 +105,8 @@ module.exports ={
     const data = await User.deleteOne(filters);
 
     res.status(data.deletedCount ? 204 : 404).send({
-        error: !data.deletedCount,
-        data
+      error: !data.deletedCount,
+      data,
     });
   },
 };
-                       

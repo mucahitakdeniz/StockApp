@@ -54,7 +54,11 @@ const useAuthCall = () => {
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
-      toastErrorNotify("Register failed");
+      const errorMessage = error?.response?.data?.message?.includes("E11000")
+        ? "User name  or Email has been used before"
+        : "Register failed";
+
+      toastErrorNotify(errorMessage);
     }
   };
   return { login, logout, register };
