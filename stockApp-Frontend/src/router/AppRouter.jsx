@@ -20,11 +20,11 @@ const AppRouter = () => {
         <Route path="stock" element={<PrivateRouter />}>
           <Route path="" element={<Dashboard />} >
             <Route index element={<Home/>}  />
-            <Route path="/stock/purchase"  element={<Purchase/>}  />
-            <Route path="/stock/sales"  element={<Sales/>}  />
-            <Route path="/stock/firms"  element={<Firms/>}  />
-            <Route path="/stock/brands"  element={<Brands/>}  />
-            <Route path="/stock/products"  element={<Products/>}  />
+            <Route path="purchase"  element={<Purchase/>}  />
+            <Route path="sales"  element={<Sales/>}  />
+            <Route path="firms"  element={<Firms/>}  />
+            <Route path="brands"  element={<Brands/>}  />
+            <Route path="products"  element={<Products/>}  />
           </Route>
         </Route>
       </Routes>
