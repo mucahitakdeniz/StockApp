@@ -4,22 +4,22 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import LockIcon from "@mui/icons-material/Lock";
 import image from "../assets/result.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { Formik, Form } from "formik";
 import { object, string } from "yup";
-import { login } from "../hooks/autApiCall";
+import useAuthCall from "../hooks/useAuthCall";
 
 const Login = () => {
+  const {login} =useAuthCall()
   const loginShema = object({
     email: string()
       .email("Please enter a valid email")
       .required("Email is a required field"),
     password:string().required("Password is a required field").min(8,"At least 8 characters must be entered").matches(/\d+/,"Must contain at least one digit.").matches(/[a-z]/,"Must contain at least one lowercase letter.").matches(/[A-Z]/,"Must contain at least one uppercase letter").matches(/[!,?{}><%&$#£+-.]/,"At least one special character")
   });
-  const navigate = useNavigate();
 
   return (
     <Container maxWidth="lg">
