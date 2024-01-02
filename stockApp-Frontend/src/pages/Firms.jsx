@@ -6,11 +6,15 @@ import { useSelector } from "react-redux";
 import { toastErrorNotify } from "../helper/ToastNotify";
 import Cards from "../components/Cards";
 import { Box } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { fetchFail, fetchStart, getFirmSSuccess } from "../features/stockSlice";
 
 const Firms = () => {
+  const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   const [data, setData] = useState([]);
   const getFims = async () => {
+    dispatch(fetchStart);
     try {
       const { data } = await axios.get(
         `${import.meta.env.VITE_BASE_URL}/firms`,
@@ -18,11 +22,14 @@ const Firms = () => {
           headers: { Authorization: `Token ${token}` },
         }
       );
+      dispatch(getFirmSSuccess(data));
       setData(data);
+      console.log(data);
     } catch (error) {
+      dispatch(fetchFail);
+
       toastErrorNotify(error.response.data.message);
     }
-    return data;
   };
 
   useEffect(() => {
@@ -36,9 +43,7 @@ const Firms = () => {
       </Typography>
       <Button variant="contained">New Firm</Button>
       <Box>
-        {data.map((item, index) => (
-          <Cards key={index} item={item} />
-        ))}
+        <Cards  data={data} />
       </Box>
     </div>
   );
