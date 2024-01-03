@@ -18,6 +18,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 const drawerWidth = 220;
 
 export default function Dashboard() {
+
+
   const { logout } = useAuthCall();
   const currentUser = useSelector((state) => state.auth);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);

@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Cards from "../components/Cards";
 import { Box } from "@mui/material";
 import useStockCall from "../hooks/useStockCall";
 import { useSelector } from "react-redux";
-import useAuthCall from "../hooks/useAuthCall";
 
 const Firms = () => {
   const { getStockFonction } = useStockCall();
@@ -13,7 +12,6 @@ const Firms = () => {
 
   useEffect(() => {
     getStockFonction("firms");
-    console.log(firms)
   }, []);
 
   return (

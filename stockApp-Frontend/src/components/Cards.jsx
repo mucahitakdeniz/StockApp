@@ -32,22 +32,64 @@ const Cards = ({ data }) => {
                 color={"error"}
                 component="div"
               >
-                {item.name}
+                {item?.name}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Adress : {item.address}
-              </Typography>
+              {item?.address && (
+                <Typography variant="body2" color="text.secondary">
+                  Adress : {item.address}
+                </Typography>
+              )}
               <br />
-              <Typography variant="body2" color="text.secondary">
-                Phone: {item.phone}
-              </Typography>
+              {item?.phone && (
+                <Typography variant="body2" color="text.secondary">
+                  Phone: {item.phone}
+                </Typography>
+              )}
+              <br />
+              {item?.price && (
+                <Typography variant="body2" color="text.secondary">
+                  Price: {item.price}
+                </Typography>
+              )}
+              {item?.price_total && (
+                <Typography variant="body2" color="text.secondary">
+                  Total Price: {item.price_total}
+                </Typography>
+              )}
+              {(item?.quantity && item?.quantity == 0) && (
+                <Typography variant="body2" color="text.secondary">
+                  Quantity : {item.quantity}
+                </Typography>
+              )}
+              {item?.stock  && (
+                <Typography variant="body2" color="text.secondary">
+                  Stock: {item.stock}
+                </Typography>
+              )}
+              {item?.brand_id?.name && (
+                <Typography variant="body2" color="text.secondary">
+                  Brand: {item.brand_id.name}
+                </Typography>
+              )}
+              {item?.category_id?.name && (
+                <Typography variant="body2" color="text.secondary">
+                  Category: {item.category_id.name}
+                </Typography>
+              )}
+              {item?.product_id?.name && (
+                <Typography variant="body2" color="text.secondary">
+                  Product: {item.product_id.name}
+                </Typography>
+              )}
             </CardContent>
-            <CardMedia
-              component="img"
-              image={item.image}
-              title={item.name}
-              sx={{ maxWidth: 300, maxHeight: 200, padding: 5 }}
-            />
+            {item?.image && (
+              <CardMedia
+                component="img"
+                image={item.image}
+                title={item.name}
+                sx={{ maxWidth: 300, maxHeight: 200, padding: 5 }}
+              />
+            )}
             <CardActions sx={{ display: "flex", justifyContent: "center" }}>
               <Button size="small">
                 <ListItemIcon>
@@ -60,7 +102,6 @@ const Cards = ({ data }) => {
                 </ListItemIcon>
               </Button>
             </CardActions>
-            
           </Card>
         </Grid>
       ))}

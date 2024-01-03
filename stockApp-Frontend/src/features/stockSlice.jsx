@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { Children } from "react";
 
 const stockSlice = createSlice({
   name: "stock",
@@ -19,7 +20,7 @@ const stockSlice = createSlice({
     },
     getStockSuccess: (state, { payload }) => {
       state.loading = false;
-      state[payload.url] = payload.data;
+      state[payload.url] = payload.data;;
     },
 
     fetchFail: (state) => {
