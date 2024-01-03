@@ -7,11 +7,11 @@ import useStockCall from "../hooks/useStockCall";
 import { useSelector } from "react-redux";
 
 const Firms = () => {
-  const { getStockFonction } = useStockCall();
+  const { getStockFunction } = useStockCall();
   const { firms } = useSelector((state) => state.stock);
 
   useEffect(() => {
-    getStockFonction("firms");
+    getStockFunction("firms");
   }, []);
 
   return (

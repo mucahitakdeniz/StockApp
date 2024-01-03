@@ -9,12 +9,12 @@ import { Box } from "@mui/material";
 
 
 const Brands = () => {
-  const { getStockFonction } = useStockCall();
+  const { getStockFunction } = useStockCall();
   const { brands } = useSelector((state) => state.stock);
   console.log(brands);
 
   useEffect(() => {
-    getStockFonction("brands");
+    getStockFunction("brands");
   }, []);
 
   return (

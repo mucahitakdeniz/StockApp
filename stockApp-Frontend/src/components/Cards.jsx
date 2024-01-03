@@ -8,8 +8,10 @@ import Grid from "@mui/material/Grid";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ListItemIcon from "@mui/material/ListItemIcon";
+import useStockCall from "../hooks/useStockCall";
 
 const Cards = ({ data }) => {
+  const { deleteFunction } = useStockCall();
   return (
     <Grid container spacing={2} sx={{ flexGrow: 1, marginTop: 3 }}>
       {data.map((item, index) => (
@@ -46,22 +48,22 @@ const Cards = ({ data }) => {
                 </Typography>
               )}
               <br />
-              {item?.price && (
+              {item?.price !== undefined && item.price !== 0 && (
                 <Typography variant="body2" color="text.secondary">
                   Price: {item.price}
                 </Typography>
               )}
-              {item?.price_total && (
+              {item?.price_total !== undefined && item?.price_total !== 0 && (
                 <Typography variant="body2" color="text.secondary">
                   Total Price: {item.price_total}
                 </Typography>
               )}
-              {(item?.quantity && item?.quantity == 0) && (
+              {item?.quantity !== undefined && item.quantity !== 0 && (
                 <Typography variant="body2" color="text.secondary">
                   Quantity : {item.quantity}
                 </Typography>
               )}
-              {item?.stock  && (
+              {item?.stock !== undefined && item.stock !== 0 && (
                 <Typography variant="body2" color="text.secondary">
                   Stock: {item.stock}
                 </Typography>
@@ -97,8 +99,8 @@ const Cards = ({ data }) => {
                 </ListItemIcon>
               </Button>
               <Button size="small">
-                <ListItemIcon>
-                  <DeleteIcon />
+                <ListItemIcon onClick={()=>deleteFunction('sales',item._id) }>
+                  <DeleteIcon  />
                 </ListItemIcon>
               </Button>
             </CardActions>
