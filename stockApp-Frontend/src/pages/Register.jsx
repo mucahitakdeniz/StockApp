@@ -13,7 +13,6 @@ import useAuthCall from "../hooks/useAuthCall";
 const Register = () => {
   const {register} =useAuthCall()
 
-  const registerShema = {};
 
   return (
     <Container maxWidth="lg">

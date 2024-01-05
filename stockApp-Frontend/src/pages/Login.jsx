@@ -14,7 +14,7 @@ import useAuthCall from "../hooks/useAuthCall";
 
 const Login = () => {
   const {login} =useAuthCall()
-  const loginShema = object({
+  const loginSchema = object({
     email: string()
       .email("Please enter a valid email")
       .required("Email is a required field"),
@@ -59,7 +59,7 @@ const Login = () => {
           </Typography>
           <Formik
             initialValues={{ email: "", password: "" }}
-            validationSchema={loginShema}
+            validationSchema={loginSchema}
             onSubmit={(values, action) => {
               login(values)
               action.resetForm();
