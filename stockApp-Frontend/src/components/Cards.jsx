@@ -8,8 +8,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import useStockCall from "../hooks/useStockCall";
 import { btnStyle } from "../styles/globasStyles";
 
-const Cards = ({ data,url }) => {
+const Cards = ({ data, url, handleOpen, info, setInfo }) => {
   const { deleteStockFunction } = useStockCall();
+
   return (
     <Grid container spacing={2} justifyContent={"center"}>
       {data?.map((item, index) => (
@@ -102,7 +103,14 @@ const Cards = ({ data,url }) => {
                 m: 2,
               }}
             >
-              <EditIcon sx={btnStyle} />
+              <EditIcon
+                sx={btnStyle}
+                onClick={() => {
+                  handleOpen();
+                  setInfo(item)
+                  console.log(item);
+                }}
+              />
               <DeleteIcon
                 sx={btnStyle}
                 onClick={() => deleteStockFunction(url, item._id)}

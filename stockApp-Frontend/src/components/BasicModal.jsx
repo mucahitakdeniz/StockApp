@@ -6,19 +6,17 @@ import { modalStyle } from "../styles/globasStyles";
 import { TextField } from "@mui/material";
 import useStockCall from "../hooks/useStockCall";
 export default function BasicModal({ open, handleClose, setInfo, info, url }) {
-  const { createStockFunction } = useStockCall();
+  const { createStockFunction, updateStockFunction } = useStockCall();
   const handleChange = (e) => {
     setInfo({ ...info, [e.target.name]: e.target.value });
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    createStockFunction(url, info);
-    setInfo({
-      name: "",
-      phone: "",
-      address: "",
-      Image: "",
-    });
+    if (info._id) {
+      updateStockFunction(url, info);
+    } else {
+      createStockFunction(url, info);
+    }
     handleClose();
   };
   return (

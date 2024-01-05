@@ -49,8 +49,28 @@ const useStockCall = () => {
       toastErrorNotify(errorMessage);
     }
   };
+  const updateStockFunction = async (url, info) => {
+    dispatch(fetchStart());
+    try {
+      await axiosWithToken.put(`/${url}/${info._id}`, info);
+      getStockFunction(url);
+      toastSuccessNotify("Update process successful");
+    } catch (error) {
+      console.log(error);
+      dispatch(fetchFail());
+      const errorMessage = error?.response?.data?.message?.includes("E11000")
+        ? "Warning: This company/product has been created before"
+        : "Update failed";
+      toastErrorNotify(errorMessage);
+    }
+  };
 
-  return { getStockFunction, deleteStockFunction, createStockFunction };
+  return {
+    getStockFunction,
+    deleteStockFunction,
+    createStockFunction,
+    updateStockFunction,
+  };
 };
 
 export default useStockCall;

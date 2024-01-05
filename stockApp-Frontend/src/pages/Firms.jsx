@@ -18,7 +18,15 @@ const Firms = () => {
   });
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setInfo({
+      name: "",
+      phone: "",
+      address: "",
+      Image: "",
+    });
+  };
 
   useEffect(() => {
     getStockFunction("firms");
@@ -40,7 +48,13 @@ const Firms = () => {
         url={"firms"}
       />
       <Box>
-        <Cards data={firms} url={"firms"} />
+        <Cards
+          data={firms}
+          url={"firms"}
+          handleOpen={handleOpen}
+          setInfo={setInfo}
+          info={info}
+        />
       </Box>
     </div>
   );
