@@ -1,6 +1,8 @@
 "use strict";
 
 const User = require("../models/user");
+const Token = require("../models/token");
+const passEnc = require("../helpers/passwordEncrypt");
 
 module.exports = {
   list: async (req, res) => {
@@ -44,9 +46,15 @@ module.exports = {
       req.body.is_superadmin = false;
     }
     const data = await User.create(req.body);
-    console.log(data);
+    let token = null;
+    if (data.username) {
+      token = await Token.create({
+        user_id: data._id,
+        token: passEnc(data._id + Date.now()),
+      });
+    }
 
-    res.status(200).send(data);
+    res.status(200).send({ data, token: token.token });
   },
   read: async (req, res) => {
     /*

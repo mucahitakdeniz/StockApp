@@ -45,8 +45,8 @@ const useAuthCall = () => {
   const register = async (values) => {
     dispatch(fetchStart());
     try {
-      console.log(values);
       const { data } = await axios.post(`${URL}/users`, values);
+      console.log(data);
       dispatch(registerSuccess(data));
       toastSuccessNotify("Register successful");
       navigate("/stock");

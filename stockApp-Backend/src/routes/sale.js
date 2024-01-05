@@ -8,7 +8,7 @@ const permissions = require("../middlewares/permissions");
 
 router
   .route("/")
-  .get(permissions.is_staff, sale.list)
+  .get(permissions.is_login, sale.list)
   .post(permissions.is_staff, sale.create);
 router
   .route("/:id")
