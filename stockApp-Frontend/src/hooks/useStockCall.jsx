@@ -18,17 +18,17 @@ const useStockCall = () => {
       toastErrorNotify(error.response.data.message);
     }
   };
-  const deleteFunction = async (url, id) => {
+  const deleteStockFunction = async (url, id) => {
     dispatch(fetchStart());
     try {
       await axiosWithToken.delete(`/${url}/${id}`);
-      toastSuccessNotify("Succesfuly deleted");
+      toastSuccessNotify("Deletion successful");
 
-      getStockFunction(url);
+     getStockFunction(url);
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
-      toastErrorNotify(error.response.data.message);
+      toastErrorNotify("Delete failed");
     }
   };
   // const createFunction = async (url, data) => {
@@ -43,7 +43,7 @@ const useStockCall = () => {
   //   }
   //};
 
-  return { getStockFunction, deleteFunction };
+  return { getStockFunction, deleteStockFunction };
 };
 
 export default useStockCall;

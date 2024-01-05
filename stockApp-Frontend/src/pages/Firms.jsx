@@ -11,7 +11,7 @@ const Firms = () => {
   const { firms } = useSelector((state) => state.stock);
 
   useEffect(() => {
-    getStockFunction("firms");
+    getStockFunction(firms);
   }, []);
 
   return (
@@ -21,7 +21,7 @@ const Firms = () => {
       </Typography>
       <Button variant="contained">New Firm</Button>
       <Box>
-        <Cards data={firms} />
+        <Cards data={firms} url={"firms"} />
       </Box>
     </div>
   );

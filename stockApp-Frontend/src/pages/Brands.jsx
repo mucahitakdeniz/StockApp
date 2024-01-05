@@ -24,7 +24,7 @@ const Brands = () => {
       </Typography>
       <Button variant="contained">New Brands</Button>
       <Box>
-       <Cards data={brands} />
+       <Cards data={brands} url={"brands"} />
       </Box>
     </div>
   );

@@ -21,7 +21,7 @@ console.log(products);
       </Typography>
       <Button variant="contained">New Firm</Button>
       <Box>
-        <Cards data={products} />
+        <Cards data={products} url={"products"}/>
       </Box>
     </div>
   );

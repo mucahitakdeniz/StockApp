@@ -20,7 +20,7 @@ const Purchase = () => {
       </Typography>
       <Button variant="contained">New Purchases</Button>
       <Box>
-        <Cards data={purchases} />
+        <Cards data={purchases} url={"purchases"} />
       </Box>
     </div>
   );
