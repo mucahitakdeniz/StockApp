@@ -43,26 +43,30 @@ export default function BasicModal({ open, handleClose, setInfo, info, url }) {
             required
           />
 
-          <TextField
-            label="Address"
-            name="address"
-            id="address"
-            type="text"
-            variant="outlined"
-            value={info?.address}
-            onChange={handleChange}
-            required
-          />
-          <TextField
-            label="Phone"
-            name="phone"
-            id="phone"
-            type="tel"
-            variant="outlined"
-            value={info?.phone}
-            onChange={handleChange}
-            required
-          />
+          {url == "firms" && (
+            <TextField
+              label="Address"
+              name="address"
+              id="address"
+              type="text"
+              variant="outlined"
+              value={info?.address}
+              onChange={handleChange}
+              required
+            />
+          )}
+          {url == "firms" && (
+            <TextField
+              label="Phone"
+              name="phone"
+              id="phone"
+              type="tel"
+              variant="outlined"
+              value={info?.phone}
+              onChange={handleChange}
+              required
+            />
+          )}
           <TextField
             label="İmage"
             name="image"
