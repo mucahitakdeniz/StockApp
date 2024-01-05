@@ -15,7 +15,9 @@ const useStockCall = () => {
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
-      toastErrorNotify(error.response.data.message);
+      toastErrorNotify(
+        error?.response?.data?.message || "Something went wrong"
+      );
     }
   };
   const deleteStockFunction = async (url, id) => {
@@ -24,26 +26,31 @@ const useStockCall = () => {
       await axiosWithToken.delete(`/${url}/${id}`);
       toastSuccessNotify("Deletion successful");
 
-     getStockFunction(url);
+      getStockFunction(url);
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
       toastErrorNotify("Delete failed");
     }
   };
-  // const createFunction = async (url, data) => {
-  //   dispatch(fetchStart());
-  //   try {
-  //     const { data } = await axiosWithToken.post(`/${url}/`, data);
-  //     getStockFunction(url);
-  //   } catch (error) {
-  //     console.log(error);
-  //     dispatch(fetchFail());
-  //     toastErrorNotify(error.response.data.message);
-  //   }
-  //};
+  const createStockFunction = async (url, info) => {
+    dispatch(fetchStart());
+    try {
+      await axiosWithToken.post(`/${url}/`, info);
+      getStockFunction(url);
+      toastSuccessNotify("Creation process successful");
+    } catch (error) {
+      console.log(error);
+      dispatch(fetchFail());
+      const errorMessage = error?.response?.data?.message?.includes("E11000")
+        ? "Warning: This company/product has been created before"
+        : "Creation failed";
 
-  return { getStockFunction, deleteStockFunction };
+      toastErrorNotify(errorMessage);
+    }
+  };
+
+  return { getStockFunction, deleteStockFunction, createStockFunction };
 };
 
 export default useStockCall;
