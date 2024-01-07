@@ -5,11 +5,12 @@ import Cards from "../components/Cards";
 import { Box } from "@mui/material";
 import useStockCall from "../hooks/useStockCall";
 import { useSelector } from "react-redux";
+import ProductDateGrid from "../components/ProductDateGrid";
 
 const Products = () => {
   const { getStockFunction } = useStockCall();
   const { products } = useSelector((state) => state.stock);
-console.log(products);
+  console.log(products);
   useEffect(() => {
     getStockFunction("products");
   }, []);
@@ -21,7 +22,8 @@ console.log(products);
       </Typography>
       <Button variant="contained">New Firm</Button>
       <Box>
-        <Cards data={products} url={"products"}/>
+        <ProductDateGrid rows={products} />
+        {/* <Cards data={products} url={"products"}/> */}
       </Box>
     </div>
   );
