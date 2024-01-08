@@ -39,8 +39,7 @@ const ProductSchema = new mongoose.Schema(
 
 ProductSchema.pre("init", function (data) {
   data.createds = data.createdAt.toLocaleDateString("tr-tr");
-  data.brand = data.brand_id.name;
-  data.category = data.category_id.name;
+  data.id = data._id;
 });
 
 module.exports = mongoose.model("Product", ProductSchema);

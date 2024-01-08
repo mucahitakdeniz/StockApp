@@ -8,6 +8,7 @@ import ProductTable from "../components/ProductTable";
 
 const Products = () => {
   const { getStockFunction } = useStockCall();
+
   const [info, setInfo] = useState({
     name: "",
     category_id: "",

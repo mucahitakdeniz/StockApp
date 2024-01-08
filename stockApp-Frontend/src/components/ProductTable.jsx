@@ -1,58 +1,93 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import { DataGrid } from '@mui/x-data-grid';
-import { useSelector } from 'react-redux';
-
-const columns = [
-  { field: '_id', headerName: '#' },
-  {
-    field: 'name',
-    headerName: 'Category',
-  },
-  {
-    field: 'lastName',
-    headerName: 'N',
-  },
-  {
-    field: 'age',
-    headerName: 'Age',
-    type: 'number',
-  },
-  {
-    field: 'fullName',
-    headerName: 'Full name',
-    width: 160,
-  }
-];
-
-const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 14 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 31 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 31 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 11 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-];
+import * as React from "react";
+import Box from "@mui/material/Box";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { useSelector } from "react-redux";
+import { Typography } from "@mui/material";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { btnStyle } from "../styles/globasStyles";
+import useStockCall from "../hooks/useStockCall";
 
 export default function ProductTable() {
-    const {products} =useSelector((state)=> state.stock)
-    console.log(products);
+  const { products } = useSelector((state) => state.stock);
+  const { deleteStockFunction } = useStockCall();
+  const columns = [
+    { field: "id", headerName: "#", headerAling: "center", flex: 2 },
+    {
+      field: "name",
+      headerName: "Category",
+      flex: 1,
+      headerAling: "center",
+      aling: "center",
+    },
+
+    {
+      field: "stock",
+      headerName: "Stock",
+      type: "number",
+      flex: 1,
+      headerAling: "center",
+      aling: "center",
+    },
+    {
+      field: "createds",
+      headerName: "Creation date",
+      flex: 1,
+      headerAling: "center",
+      aling: "center",
+    },
+    {
+      field: "category_id",
+      headerName: "Category",
+      headerAling: "center",
+      aling: "center",
+      renderCell: (params) => (
+        <Typography> {params.row.category_id.name}</Typography>
+      ),
+      flex: 1,
+    },
+    {
+      field: "brand_id",
+      headerName: "Category",
+      headerAling: "center",
+      aling: "center",
+      renderCell: (params) => (
+        <Typography> {params.row.brand_id.name}</Typography>
+      ),
+      flex: 1,
+    },
+    {
+      field: "actions",
+      headerName: "Actions",
+      type: "actions",
+      headerAling: "center",
+      aling: "center",
+      getActions: ({ id }) => [
+        <GridActionsCellItem
+          icon={<DeleteForeverIcon />}
+          onClick={() => {
+            deleteStockFunction("products", id);
+          }}
+          label="Delete"
+          sx={btnStyle}
+        />,
+      ],
+      flex: 1,
+    },
+  ];
+
   return (
-    <Box sx={{ height: 400, width: '100%' }}>
+    <Box sx={{ height: 400, width: "100%" }}>
       <DataGrid
-        rows={rows}
+        rows={products}
         columns={columns}
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 5,
+              pageSize: 10,
             },
           },
         }}
-        pageSizeOptions={[5]}
+        pageSizeOptions={[10]}
         checkboxSelection
         disableRowSelectionOnClick
       />
