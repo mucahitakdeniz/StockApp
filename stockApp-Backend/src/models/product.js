@@ -9,7 +9,7 @@ const { mongoose } = require("../configs/dbConnection");
 }
 /* ------------------------------------------------------- */
 
-const ProducrSchema = new mongoose.Schema(
+const ProductSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -37,8 +37,10 @@ const ProducrSchema = new mongoose.Schema(
 
 //  perform an action before initialization
 
-ProducrSchema.pre("init", function (data) {
+ProductSchema.pre("init", function (data) {
   data.createds = data.createdAt.toLocaleDateString("tr-tr");
+  data.brand = data.brand_id.name;
+  data.category = data.category_id.name;
 });
 
-module.exports = mongoose.model("Product", ProducrSchema);
+module.exports = mongoose.model("Product", ProductSchema);
