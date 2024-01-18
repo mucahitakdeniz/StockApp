@@ -110,7 +110,13 @@ const useStockCall = () => {
   const createStockFunction = async (url, info) => {
     dispatch(fetchStart());
     try {
-      await axiosWithToken.post(`/${url}/`, info);
+      if (info.id) {
+        await axiosWithToken.put(`/${url}/${info.id}`, info);
+        toastSuccessNotify("Update process successful");
+      } else {
+        await axiosWithToken.post(`/${url}/`, info);
+        toastSuccessNotify("Creation process successful");
+      }
       getStockFunction(url);
       toastSuccessNotify("Creation process successful");
     } catch (error) {
@@ -118,7 +124,7 @@ const useStockCall = () => {
       dispatch(fetchFail());
       const errorMessage = error?.response?.data?.message?.includes("E11000")
         ? "Warning: This company/product has been created before"
-        : "Creation failed";
+        : error?.response?.data?.message;
 
       toastErrorNotify(errorMessage);
     }

@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import Cards from "../components/Cards";
 import { Box } from "@mui/material";
 import useStockCall from "../hooks/useStockCall";
-import { useSelector } from "react-redux";
 import SaleModal from "../components/SaleModal";
 import SalesTable from "../components/SalesTable";
 
 const Sales = () => {
   const { getProdSalesBrands } = useStockCall();
-  const { sales } = useSelector((state) => state.stock);
 
   const [info, setInfo] = useState({
     brand_id: "",
@@ -48,7 +45,7 @@ const Sales = () => {
         setInfo={setInfo}
       />
       <Box>
-        <SalesTable />
+        <SalesTable handleOpen={handleOpen} setInfo={setInfo} />
       </Box>
     </div>
   );

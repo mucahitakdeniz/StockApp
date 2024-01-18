@@ -37,8 +37,12 @@ const SalesSchema = new mongoose.Schema(
     },
     price_total: {
       type: Number,
-      default: function() {return this.price * this.quantity},
-      transform: function() {return this.price * this.quantity},
+      default: function () {
+        return this.price * this.quantity;
+      },
+      transform: function () {
+        return this.price * this.quantity;
+      },
     },
   },
   { collection: "sales", timestamps: true }
@@ -48,6 +52,7 @@ const SalesSchema = new mongoose.Schema(
 
 SalesSchema.pre("init", function (data) {
   data.createds = data.createdAt.toLocaleDateString("tr-tr");
+  data.id = data._id;
 });
 
 module.exports = mongoose.model("Sale", SalesSchema);

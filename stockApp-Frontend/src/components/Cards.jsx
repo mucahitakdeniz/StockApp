@@ -108,7 +108,6 @@ const Cards = ({ data, url, handleOpen, info, setInfo }) => {
                 onClick={() => {
                   handleOpen();
                   setInfo(item)
-                  console.log(item);
                 }}
               />
               <DeleteIcon

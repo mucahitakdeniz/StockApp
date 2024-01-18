@@ -6,77 +6,113 @@ import { Typography } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { btnStyle } from "../styles/globasStyles";
 import useStockCall from "../hooks/useStockCall";
+import EditIcon from "@mui/icons-material/Edit";
 
-export default function SalesTable() {
+export default function SalesTable({ handleOpen, setInfo }) {
   const { sales } = useSelector((state) => state.stock);
   const { deleteStockFunction } = useStockCall();
+
   const columns = [
-    // { field: "id", headerName: "# ID", headerAling: "center", flex: 2 },
-    
-    // {
-    //   field: "stock",
-    //   headerName: "Stock",
-    //   type: "number",
-    //   flex: 1,
-    //   headerAling: "center",
-    //   aling: "center",
-    // },
-    // {
-    //   field: "createds",
-    //   headerName: "Creation date",
-    //   flex: 1,
-    //   headerAling: "center",
-    //   aling: "center",
-    // },
-    // {
-    //   field: "category_id",
-    //   headerName: "Category",
-    //   headerAling: "center",
-    //   aling: "center",
-    //   renderCell: (params) => (
-    //     <Typography> {params.row.category_id.name}</Typography>
-    //   ),
-    //   flex: 1,
-    // },
-    // {
-    //   field: "brand_id",
-    //   headerName: "Brand",
-    //   headerAling: "center",
-    //   aling: "center",
-    //   renderCell: (params) => (
-    //     <Typography> {params.row.brand_id.name}</Typography>
-    //   ),
-    //   flex: 1,
-    // },
-    // {
-    //   field: "actions",
-    //   headerName: "Actions",
-    //   type: "actions",
-    //   headerAling: "center",
-    //   aling: "center",
-    //   getActions: ({ id }) => [
-    //     <GridActionsCellItem
-    //       icon={<DeleteForeverIcon />}
-    //       onClick={() => {
-    //         deleteStockFunction("sales", id);
-    //       }}
-    //       label="Delete"
-    //       sx={btnStyle}
-    //     />,
-    //   ],
-    //   flex: 1,
-    // },
+    { field: "id", headerName: "# ID", headerAling: "center", flex: 2 },
+    {
+      field: "createds",
+      headerName: "Creation date",
+      flex: 2,
+      headerAling: "center",
+      aling: "center",
+    },
+    {
+      field: "product_id",
+      headerName: "Product",
+      headerAling: "center",
+      aling: "center",
+      renderCell: (params) => (
+        <Typography> {params.row.product_id.name}</Typography>
+      ),
+      flex: 2,
+    },
+    {
+      field: "brand_id",
+      headerName: "Brand",
+      headerAling: "center",
+      aling: "center",
+      renderCell: (params) => (
+        <Typography> {params.row.brand_id.name}</Typography>
+      ),
+      flex: 2,
+    },
+    {
+      field: "quantity",
+      headerName: "Stock",
+      type: "number",
+      flex: 1,
+      headerAling: "center",
+      aling: "center",
+    },
+
+    {
+      field: "price",
+      headerName: "Price",
+      type: "number",
+      flex: 1,
+      headerAling: "center",
+      aling: "center",
+    },
+    {
+      field: "price_total",
+      headerName: "Total Price",
+      type: "number",
+      flex: 1,
+      headerAling: "center",
+      aling: "center",
+    },
+
+    {
+      field: "actions",
+      headerName: "Actions",
+      type: "actions",
+      headerAling: "center",
+      aling: "center",
+      getActions: ({ id }) => [
+        <GridActionsCellItem
+          icon={<EditIcon />}
+          onClick={() => {
+            const sale = sales.filter((sale) => sale.id == id);
+            setInfo({
+              product_id: sale[0]?.product_id?._id,
+              brand_id: sale[0]?.brand_id_id?._id,
+              quantity: sale[0]?.quantity,
+              price: sale[0]?.price,
+              id: sale[0]?.id,
+            });
+            handleOpen();
+          }}
+          label="Delete"
+          sx={btnStyle}
+        />,
+        <GridActionsCellItem
+          icon={<DeleteForeverIcon />}
+          onClick={() => {
+            deleteStockFunction("sales", id);
+          }}
+          label="Delete"
+          sx={btnStyle}
+        />,
+      ],
+
+      flex: 2,
+    },
   ];
 
   return (
-    <Box sx={{ width: "100%"}}>
+    <Box sx={{ width: "100%" }}>
       <DataGrid
         autoHeight
         rows={sales}
         columns={columns}
-        pageSizeOptions={[10,20,50,100]}
+        pageSizeOptions={[10, 20, 50, 100]}
         disableRowSelectionOnClick
-        slots={{toolbar:GridToolbar}}
+        slots={{ toolbar: GridToolbar }}
       />
     </Box>
   );

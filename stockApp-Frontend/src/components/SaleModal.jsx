@@ -58,7 +58,7 @@ const SaleModal = ({ handleClose, open, info, setInfo }) => {
               labelId="product_id"
               id="product_id"
               name="product_id"
-              value={info?.products_id || ""}
+              value={info?.product_id || ""}
               label="product_id"
               onChange={handleChange}
             >
