@@ -1,6 +1,13 @@
 import { toastErrorNotify, toastSuccessNotify } from "../helper/ToastNotify";
 import { useDispatch } from "react-redux";
-import { fetchFail, fetchStart, getStockSuccess } from "../features/stockSlice";
+import {
+  fetchFail,
+  fetchStart,
+  getStockSuccess,
+  getProdCatBrandsSuccess,
+  getProdSalesBrandsSuccess,
+  getProdFirmBrandsPruchasesSuccess,
+} from "../features/stockSlice";
 import useAxios from "./useAxios";
 
 const useStockCall = () => {
@@ -12,6 +19,73 @@ const useStockCall = () => {
     try {
       const { data } = await axiosWithToken(`/${url}`);
       dispatch(getStockSuccess({ url, data }));
+    } catch (error) {
+      console.log(error);
+      dispatch(fetchFail());
+      toastErrorNotify(
+        error?.response?.data?.message || "Something went wrong"
+      );
+    }
+  };
+  const getProdCatBrands = async (url) => {
+    dispatch(fetchStart());
+    try {
+      const [products, categories, brands] = await Promise.all([
+        axiosWithToken(`/products`),
+        axiosWithToken(`/categories`),
+        axiosWithToken(`/brands`),
+      ]);
+      dispatch(
+        getProdCatBrandsSuccess([
+          products?.data,
+          categories?.data,
+          brands?.data,
+        ])
+      );
+    } catch (error) {
+      console.log(error);
+      dispatch(fetchFail());
+      toastErrorNotify(
+        error?.response?.data?.message || "Something went wrong"
+      );
+    }
+  };
+  const getProdSalesBrands = async (url) => {
+    dispatch(fetchStart());
+    try {
+      const [products, sales, brands] = await Promise.all([
+        axiosWithToken(`/products`),
+        axiosWithToken(`/sales`),
+        axiosWithToken(`/brands`),
+      ]);
+      dispatch(
+        getProdSalesBrandsSuccess([products?.data, sales?.data, brands?.data])
+      );
+    } catch (error) {
+      console.log(error);
+      dispatch(fetchFail());
+      toastErrorNotify(
+        error?.response?.data?.message || "Something went wrong"
+      );
+    }
+  };
+  const getProdFirmBrandsPruchases = async (url) => {
+    dispatch(fetchStart());
+    try {
+      const [products, firms, brands, purchases] = await Promise.all([
+        axiosWithToken(`/products`),
+        axiosWithToken(`/firms`),
+        axiosWithToken(`/brands`),
+        axiosWithToken(`/purchases`),
+      ]);
+      dispatch(
+        getProdFirmBrandsPruchasesSuccess([
+          products?.data,
+          firms?.data,
+          brands?.data,
+          purchases?.data,
+        ])
+      );
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
@@ -70,6 +144,9 @@ const useStockCall = () => {
     deleteStockFunction,
     createStockFunction,
     updateStockFunction,
+    getProdCatBrands,
+    getProdSalesBrands,
+    getProdFirmBrandsPruchases,
   };
 };
 

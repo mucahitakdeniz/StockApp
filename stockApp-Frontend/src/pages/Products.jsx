@@ -7,7 +7,7 @@ import ProductModal from "../components/ProductModal";
 import ProductTable from "../components/ProductTable";
 
 const Products = () => {
-  const { getStockFunction } = useStockCall();
+  const { getProdCatBrands } = useStockCall();
 
   const [info, setInfo] = useState({
     name: "",
@@ -28,9 +28,7 @@ const Products = () => {
     });
   };
   useEffect(() => {
-    getStockFunction("products");
-    getStockFunction("categories");
-    getStockFunction("brands");
+   getProdCatBrands();
   }, []);
 
   return (
@@ -38,7 +36,7 @@ const Products = () => {
       <Typography variant="h4" color={"error"} mb={4}>
         Products
       </Typography>
-      <Button variant="contained" onClick={handleOpen} sx={{mb:4}}>
+      <Button variant="contained" onClick={handleOpen} sx={{ mb: 4 }}>
         New Product
       </Button>
       <ProductModal
