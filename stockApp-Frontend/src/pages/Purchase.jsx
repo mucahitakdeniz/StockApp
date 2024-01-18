@@ -18,7 +18,7 @@ const Purchase = () => {
       <Typography variant="h4" color={"error"} mb={4}>
         Purchases
       </Typography>
-      <Button variant="contained">New Purchases</Button>
+      <Button variant="contained" sx={{mb:4}}>New Purchases</Button>
       <Box>
         <Cards data={purchases} url={"purchases"} />
       </Box>

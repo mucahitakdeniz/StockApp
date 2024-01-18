@@ -1,6 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem, GridToolbar } from "@mui/x-data-grid";
 import { useSelector } from "react-redux";
 import { Typography } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -11,10 +11,10 @@ export default function ProductTable() {
   const { products } = useSelector((state) => state.stock);
   const { deleteStockFunction } = useStockCall();
   const columns = [
-    { field: "id", headerName: "#", headerAling: "center", flex: 2 },
+    { field: "id", headerName: "# ID", headerAling: "center", flex: 2 },
     {
       field: "name",
-      headerName: "Category",
+      headerName: "Product Name",
       flex: 1,
       headerAling: "center",
       aling: "center",
@@ -47,7 +47,7 @@ export default function ProductTable() {
     },
     {
       field: "brand_id",
-      headerName: "Category",
+      headerName: "Brand",
       headerAling: "center",
       aling: "center",
       renderCell: (params) => (
@@ -76,20 +76,14 @@ export default function ProductTable() {
   ];
 
   return (
-    <Box sx={{ height: 400, width: "100%" }}>
+    <Box sx={{ width: "100%"}}>
       <DataGrid
+        autoHeight
         rows={products}
         columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 10,
-            },
-          },
-        }}
-        pageSizeOptions={[10]}
-        checkboxSelection
+        pageSizeOptions={[10,20,50,100]}
         disableRowSelectionOnClick
+        slots={{toolbar:GridToolbar}}
       />
     </Box>
   );

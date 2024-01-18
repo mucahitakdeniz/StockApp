@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 const Sales = () => {
   const { getStockFunction } = useStockCall();
   const { sales } = useSelector((state) => state.stock);
-console.log(sales);
+  console.log(sales);
   useEffect(() => {
     getStockFunction("sales");
   }, []);
@@ -19,7 +19,9 @@ console.log(sales);
       <Typography variant="h4" color={"error"} mb={4}>
         Sales
       </Typography>
-      <Button variant="contained">New Firm</Button>
+      <Button variant="contained" sx={{ mb: 4 }}>
+        New Firm
+      </Button>
       <Box>
         <Cards data={sales} url={"sales"} />
       </Box>

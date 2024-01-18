@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import useAuthCall from "../hooks/useAuthCall";
 import Button from "@mui/material/Button";
 import { MenuListItems } from "../components/MenuListItems";
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import Hidden from "@mui/material/Hidden";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -18,7 +18,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 const drawerWidth = 220;
 
 export default function Dashboard() {
-
 
   const { logout } = useAuthCall();
   const currentUser = useSelector((state) => state.auth);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -10,7 +10,7 @@ import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import StoreIcon from "@mui/icons-material/Store";
 import SellIcon from "@mui/icons-material/Sell";
 import FactoryIcon from "@mui/icons-material/Factory";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 
 const icons = [
@@ -49,6 +49,17 @@ const icons = [
 export const MenuListItems = () => {
   const [click, setClick] = useState(0);
   const navigate = useNavigate();
+  const handleClick = (index, url) => {
+    navigate(url);
+    setClick(index);
+    localStorage.setItem("selectedItemIndex", index.toString());
+  };
+  useEffect(() => {
+    const storedIndex = localStorage.getItem("selectedItemIndex");
+    if (storedIndex) {
+      setClick(parseInt(storedIndex, 10));
+    }
+  }, []);
   return (
     <div>
       <List>
@@ -57,8 +68,7 @@ export const MenuListItems = () => {
             key={index}
             disablePadding
             onClick={() => {
-              navigate(icon.url);
-              setClick(index);
+              handleClick(index, icon.url);
             }}
             sx={{
               color: "white",
