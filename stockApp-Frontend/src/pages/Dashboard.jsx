@@ -14,11 +14,11 @@ import { Outlet, useParams } from "react-router-dom";
 import Hidden from "@mui/material/Hidden";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
+import LiveClock from "../components/LiveClock";
 
 const drawerWidth = 220;
 
 export default function Dashboard() {
-
   const { logout } = useAuthCall();
   const currentUser = useSelector((state) => state.auth);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
@@ -64,7 +64,7 @@ export default function Dashboard() {
           anchor="left"
           open={mobileDrawerOpen}
           onClose={toggleMobileDrawer}
-        >
+        > 
           <Toolbar />
           <Divider />
           <MenuListItems />
@@ -85,6 +85,7 @@ export default function Dashboard() {
           variant="permanent"
           anchor="left"
         >
+          <LiveClock/>
           <Toolbar />
           <Divider />
           <MenuListItems />
