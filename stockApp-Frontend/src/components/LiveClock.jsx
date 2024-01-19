@@ -15,7 +15,7 @@ const LiveClock = () => {
     }, [])
     return (
       <div >
-        <Typography variant="h4" margin="8px" color="white">{currentTime.toLocaleTimeString()}</Typography>
+        <Typography variant="h5"mt={2} width={170} ml={3} border={3} borderRadius={2} textAlign="center"justifyContent="center"  color="white">{currentTime.toLocaleTimeString()}</Typography>
       </div>
     );
   } 

@@ -4,7 +4,7 @@ const router = require("express").Router();
 
 const user = require("../controllers/user");
 const { is_login, is_admin } = require("../middlewares/permissions");
-router.route("/").get(is_login, user.list).post(is_login, user.create);
+router.route("/").get(is_login, user.list).post(user.create);
 router
   .route("/:id")
   .get(is_login, user.read)

@@ -104,7 +104,7 @@ const useStockCall = () => {
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
-      toastErrorNotify("Delete failed");
+      toastErrorNotify(error?.response?.data?.message || "Delete failed");
     }
   };
   const createStockFunction = async (url, info) => {
@@ -140,7 +140,7 @@ const useStockCall = () => {
       dispatch(fetchFail());
       const errorMessage = error?.response?.data?.message?.includes("E11000")
         ? "Warning: This company/product has been created before"
-        : "Update failed";
+        : error?.response?.data?.message;
       toastErrorNotify(errorMessage);
     }
   };

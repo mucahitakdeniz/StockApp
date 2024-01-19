@@ -42,9 +42,10 @@ export default function Dashboard() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             STOCK APP
           </Typography>
+
           {currentUser && (
             <Button color="inherit" onClick={() => logout()}>
-              Logout
+              Log out
             </Button>
           )}
         </Toolbar>
@@ -64,7 +65,7 @@ export default function Dashboard() {
           anchor="left"
           open={mobileDrawerOpen}
           onClose={toggleMobileDrawer}
-        > 
+        >
           <Toolbar />
           <Divider />
           <MenuListItems />
@@ -85,7 +86,7 @@ export default function Dashboard() {
           variant="permanent"
           anchor="left"
         >
-          <LiveClock/>
+          <LiveClock />
           <Toolbar />
           <Divider />
           <MenuListItems />
