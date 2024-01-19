@@ -10,7 +10,7 @@ import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import StoreIcon from "@mui/icons-material/Store";
 import SellIcon from "@mui/icons-material/Sell";
 import FactoryIcon from "@mui/icons-material/Factory";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const icons = [
@@ -47,19 +47,13 @@ const icons = [
 ];
 
 export const MenuListItems = () => {
-  const [click, setClick] = useState(0);
+  const [click, setClick] = useState("Dahboard");
+
   const navigate = useNavigate();
-  const handleClick = (index, url) => {
+  const handleClick = (title, url) => {
     navigate(url);
-    setClick(index);
-    localStorage.setItem("selectedItemIndex", index.toString());
+    setClick(title);
   };
-  useEffect(() => {
-    const storedIndex = localStorage.getItem("selectedItemIndex");
-    if (storedIndex) {
-      setClick(parseInt(storedIndex, 10));
-    }
-  }, []);
   return (
     <div>
       <List>
@@ -68,18 +62,21 @@ export const MenuListItems = () => {
             key={index}
             disablePadding
             onClick={() => {
-              handleClick(index, icon.url);
+              handleClick(icon.title, icon.url);
             }}
             sx={{
-              color: "white",
+              color: click == icon.title ? "red" : "white",
               "&:hover": { color: "red" },
               "&:hover .MuiSvgIcon-root": { color: "red" },
-              backgroundColor: click == index && "orange",
+              backgroundColor: click == icon.title && "orange",
             }}
           >
             <ListItemButton>
               <ListItemIcon
-                sx={{ color: "white", "&:hover": { color: "red" } }}
+                sx={{
+                  color: click == icon.title ? "red" : "white",
+                  "&:hover": { color: "red" },
+                }}
               >
                 {icon.icon}
               </ListItemIcon>

@@ -10,7 +10,6 @@ import BasicModal from "../components/BasicModal";
 const Brands = () => {
   const { getStockFunction } = useStockCall();
   const { brands } = useSelector((state) => state.stock);
-  console.log(brands);
   const [info, setInfo] = useState({
     name: "",
     Image: "",

@@ -39,50 +39,18 @@ const Cards = ({ data, url, handleOpen, info, setInfo }) => {
             </Typography>
             {item?.address && (
               <Typography variant="body2" color="text.secondary">
-                Adress : {item.address}
-              </Typography>
-            )}
-            {item?.phone && (
-              <Typography variant="body2" color="text.secondary">
-                Phone: {item.phone}
+                <span style={{ fontWeight: "bolder" }}>Address:</span>{" "}
+                {item.address}
               </Typography>
             )}
             <br />
-            {item?.price !== undefined && (
+            {item?.phone && (
               <Typography variant="body2" color="text.secondary">
-                Price: {item.price}
+                <span style={{ fontWeight: "bolder" }}>Phone:</span>{" "}
+                {item.phone}
               </Typography>
             )}
-            {item?.price_total !== undefined && (
-              <Typography variant="body2" color="text.secondary">
-                Total Price: {item.price_total}
-              </Typography>
-            )}
-            {item?.quantity !== undefined && (
-              <Typography variant="body2" color="text.secondary">
-                Quantity : {item.quantity}
-              </Typography>
-            )}
-            {item?.stock !== undefined && (
-              <Typography variant="body2" color="text.secondary">
-                Stock: {item.stock}
-              </Typography>
-            )}
-            {item?.brand_id?.name && (
-              <Typography variant="body2" color="text.secondary">
-                Brand: {item.brand_id.name}
-              </Typography>
-            )}
-            {item?.category_id?.name !== undefined && (
-              <Typography variant="body2" color="text.secondary">
-                Category: {item?.category_id?.name}
-              </Typography>
-            )}
-            {item?.product_id?.name !== undefined && (
-              <Typography variant="body2" color="text.secondary">
-                Product: {item.product_id.name}
-              </Typography>
-            )}
+
             {item?.image && (
               <CardMedia
                 component="img"
@@ -107,7 +75,7 @@ const Cards = ({ data, url, handleOpen, info, setInfo }) => {
                 sx={btnStyle}
                 onClick={() => {
                   handleOpen();
-                  setInfo(item)
+                  setInfo(item);
                 }}
               />
               <DeleteIcon

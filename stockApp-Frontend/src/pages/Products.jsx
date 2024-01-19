@@ -15,7 +15,6 @@ const Products = () => {
     brand_id: "",
   });
   const { products } = useSelector((state) => state.stock);
-  console.log(products);
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);

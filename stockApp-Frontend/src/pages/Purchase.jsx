@@ -9,7 +9,6 @@ import { useSelector } from "react-redux";
 const Purchase = () => {
   const { getStockFunction } = useStockCall();
   const { purchases } = useSelector((state) => state.stock);
-  console.log(purchases);
   useEffect(() => {
     getStockFunction("purchases");
   }, []);
@@ -20,7 +19,6 @@ const Purchase = () => {
       </Typography>
       <Button variant="contained" sx={{mb:4}}>New Purchases</Button>
       <Box>
-        <Cards data={purchases} url={"purchases"} />
       </Box>
     </div>
   );
