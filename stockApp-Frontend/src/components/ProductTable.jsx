@@ -13,6 +13,13 @@ export default function ProductTable() {
   const columns = [
     { field: "id", headerName: "# ID", headerAling: "center", flex: 2 },
     {
+      field: "createds",
+      headerName: "Date",
+      flex: 1,
+      headerAling: "center",
+      aling: "center",
+    },
+    {
       field: "name",
       headerName: "Product Name",
       flex: 1,
@@ -28,13 +35,7 @@ export default function ProductTable() {
       headerAling: "center",
       aling: "center",
     },
-    {
-      field: "createds",
-      headerName: "Creation date",
-      flex: 1,
-      headerAling: "center",
-      aling: "center",
-    },
+
     {
       field: "category_id",
       headerName: "Category",

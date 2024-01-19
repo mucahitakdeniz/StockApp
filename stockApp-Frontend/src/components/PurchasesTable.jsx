@@ -14,7 +14,7 @@ const PurchasesTable = ({ handleOpen,setInfo }) => {
     { field: "id", headerName: "# ID", headerAling: "center", flex: 3 },
     {
       field: "createds",
-      headerName: "Creation date",
+      headerName: "Date",
       flex: 1.5,
       headerAling: "center",
       aling: "center",

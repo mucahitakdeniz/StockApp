@@ -15,7 +15,7 @@ export default function SalesTable({ handleOpen, setInfo }) {
     { field: "id", headerName: "# ID", headerAling: "center", flex: 2 },
     {
       field: "createds",
-      headerName: "Creation date",
+      headerName: "Date",
       flex: 2,
       headerAling: "center",
       aling: "center",
