@@ -40,9 +40,7 @@ export default function ProductTable() {
       headerName: "Category",
       headerAling: "center",
       aling: "center",
-      renderCell: (params) => (
-        <Typography> {params.row.category_id.name}</Typography>
-      ),
+      valueGetter: (params) => params?.row?.category_id?.name,
       flex: 1,
     },
     {
@@ -50,9 +48,7 @@ export default function ProductTable() {
       headerName: "Brand",
       headerAling: "center",
       aling: "center",
-      renderCell: (params) => (
-        <Typography> {params.row.brand_id.name}</Typography>
-      ),
+      valueGetter: (params) => params?.row?.brand_id?.name,
       flex: 1,
     },
     {
@@ -76,14 +72,14 @@ export default function ProductTable() {
   ];
 
   return (
-    <Box sx={{ width: "100%"}}>
+    <Box sx={{ width: "100%" }}>
       <DataGrid
         autoHeight
         rows={products}
         columns={columns}
-        pageSizeOptions={[10,20,50,100]}
+        pageSizeOptions={[10, 20, 50, 100]}
         disableRowSelectionOnClick
-        slots={{toolbar:GridToolbar}}
+        slots={{ toolbar: GridToolbar }}
       />
     </Box>
   );

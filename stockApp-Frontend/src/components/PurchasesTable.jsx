@@ -6,27 +6,34 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { btnStyle } from "../styles/globasStyles";
 import useStockCall from "../hooks/useStockCall";
 import EditIcon from "@mui/icons-material/Edit";
-
-export default function SalesTable({ handleOpen, setInfo }) {
-  const { sales } = useSelector((state) => state.stock);
+const PurchasesTable = ({ handleOpen,setInfo }) => {
+  const { purchases } = useSelector((state) => state.stock);
   const { deleteStockFunction } = useStockCall();
 
   const columns = [
-    { field: "id", headerName: "# ID", headerAling: "center", flex: 2 },
+    { field: "id", headerName: "# ID", headerAling: "center", flex: 3 },
     {
       field: "createds",
       headerName: "Creation date",
-      flex: 2,
+      flex: 1.5,
       headerAling: "center",
       aling: "center",
+    },
+    {
+      field: "firm_id",
+      headerName: "Firm",
+      headerAling: "center",
+      aling: "center",
+      valueGetter: (params) => params?.row?.firm_id?.name,
+      flex: 1.5,
     },
     {
       field: "product_id",
       headerName: "Product",
       headerAling: "center",
       aling: "center",
-      valueGetter: (params) => params.row.product_id.name,
-      flex: 2,
+      valueGetter: (params) => params?.row?.product_id?.name,
+      flex: 1,
     },
     {
       field: "brand_id",
@@ -34,7 +41,7 @@ export default function SalesTable({ handleOpen, setInfo }) {
       headerAling: "center",
       aling: "center",
       valueGetter: (params) => params?.row?.brand_id?.name,
-      flex: 2,
+      flex: 1,
     },
     {
       field: "quantity",
@@ -72,15 +79,18 @@ export default function SalesTable({ handleOpen, setInfo }) {
         <GridActionsCellItem
           icon={<EditIcon />}
           onClick={() => {
-            const sale = sales.filter((sale) => sale.id == id);
-            setInfo({
-              product_id: sale[0]?.product_id?._id,
-              brand_id: sale[0]?.brand_id_id?._id,
-              quantity: sale[0]?.quantity,
-              price: sale[0]?.price,
-              id: sale[0]?.id,
-            });
             handleOpen();
+
+            const purchase = purchases.filter((purchase) => purchase.id == id);
+            console.log(purchase);
+            setInfo({
+              product_id: purchase[0]?.product_id?._id,
+              firm_id: purchase[0]?.firm_id?._id,
+              brand_id: purchase[0]?.brand_id?._id,
+              quantity: purchase[0]?.quantity,
+              price: purchase[0]?.price,
+              id: purchase[0]?.id,
+            });
           }}
           label="Delete"
           sx={btnStyle}
@@ -88,7 +98,7 @@ export default function SalesTable({ handleOpen, setInfo }) {
         <GridActionsCellItem
           icon={<DeleteForeverIcon />}
           onClick={() => {
-            deleteStockFunction("sales", id);
+            deleteStockFunction("purchases", id);
           }}
           label="Delete"
           sx={btnStyle}
@@ -103,7 +113,7 @@ export default function SalesTable({ handleOpen, setInfo }) {
     <Box sx={{ width: "100%" }}>
       <DataGrid
         autoHeight
-        rows={sales}
+        rows={purchases}
         columns={columns}
         pageSizeOptions={[10, 20, 50, 100]}
         disableRowSelectionOnClick
@@ -111,4 +121,6 @@ export default function SalesTable({ handleOpen, setInfo }) {
       />
     </Box>
   );
-}
+};
+
+export default PurchasesTable;

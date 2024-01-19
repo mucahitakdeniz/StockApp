@@ -54,6 +54,7 @@ const PurchaseSchema = new mongoose.Schema(
 
 PurchaseSchema.pre("init", function (data) {
   data.createds = data.createdAt.toLocaleDateString("tr-tr");
+  data.id = data._id;
 });
 
 module.exports = mongoose.model("Purchase", PurchaseSchema);
