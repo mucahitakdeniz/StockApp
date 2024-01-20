@@ -4,8 +4,12 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import { Avatar, Box, Grid, Paper, Typography } from "@mui/material";
 const KpiCards = ({ sales, purchases }) => {
-  const salesTotal = 10
-  const purchasesTotal = 15
+  const salesTotal = sales
+    ?.map((item) => item.price_total)
+    .reduce((acc, sale) => acc + sale, 0);
+  const purchasesTotal = purchases
+    ?.map((item) => item.price_total)
+    .reduce((acc, sale) => acc + sale, 0);
   const profit = salesTotal - purchasesTotal;
 
   const cardData = [
@@ -65,7 +69,7 @@ const KpiCards = ({ sales, purchases }) => {
               </Typography>
               <Typography variant="h4" mb={2}>
                 {item.value}
-              </Typography>{" "}
+              </Typography>
             </Box>
           </Paper>
         </Grid>
