@@ -1,50 +1,48 @@
-import { Card, LineChart, Title } from "@tremor/react";
+import { Card, Grid, LineChart, Title } from "@tremor/react";
 
-const chartdata = [
-  {
-    year: 1970,
-    "Export Growth Rate": 2.04,
-    "Import Growth Rate": 1.53,
-  },
-  {
-    year: 1971,
-    "Export Growth Rate": 1.96,
-    "Import Growth Rate": 1.58,
-  },
-  {
-    year: 1972,
-    "Export Growth Rate": 1.96,
-    "Import Growth Rate": 1.61,
-  },
-  {
-    year: 1973,
-    "Export Growth Rate": 1.93,
-    "Import Growth Rate": 1.61,
-  },
-  {
-    year: 1974,
-    "Export Growth Rate": 1.88,
-    "Import Growth Rate": 1.67,
-  },
-];
+const Charts = ({ sales, purchases }) => {
+  const dataFormatter = (number) =>
+    `${Intl.NumberFormat("us").format(number).toString()}`;
 
-const valueFormatter = (number) =>
-  `$ ${new Intl.NumberFormat("us").format(number).toString()}`;
-
-const Charts = () => {
+  const salesData = sales?.map((item) => ({
+    date: item.createds,
+    price: +item.price_total,
+    quantity: item.quantity,
+  }));
+  const purchaesData = purchases?.map((item) => ({
+    date: item.createds,
+    price: +item.price_total,
+    quantity: item.quantity,
+  }));
   return (
-    <Card>
-      <Title>Export/Import Growth Rates (1970 to 2021)</Title>
-      <LineChart
-        className="mt-6"
-        data={chartdata}
-        index="year"
-        categories={["Export Growth Rate", "Import Growth Rate"]}
-        colors={["emerald", "gray"]}
-        valueFormatter={valueFormatter}
-        yAxisWidth={40}
-      />
-    </Card>
+    <Grid container spacing={123456}>
+      <Grid key={1} item>
+        <Card>
+          <Title>Total Sales</Title>
+          <LineChart
+            className="mt-6"
+            data={salesData}
+            index="date"
+            categories={["quantity", "price"]}
+            colors={["red", "blue"]}
+            valueFormatter={dataFormatter}
+          />
+        </Card>
+      </Grid>
+      <Grid key={2} item>
+        <Card>
+          <Title>Total Purchases</Title>
+          <LineChart
+            className="mt-6"
+            data={purchaesData}
+            index="date"
+            categories={["quantity", "price"]}
+            colors={["red", "blue"]}
+            valueFormatter={dataFormatter}
+          />
+        </Card>
+      </Grid>
+    </Grid>
   );
 };
 export default Charts;

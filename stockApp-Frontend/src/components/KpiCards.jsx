@@ -3,7 +3,11 @@ import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import { Avatar, Box, Grid, Paper, Typography } from "@mui/material";
-const KpiCards = () => {
+const KpiCards = ({ sales, purchases }) => {
+  const salesTotal = 10
+  const purchasesTotal = 15
+  const profit = salesTotal - purchasesTotal;
+
   const cardData = [
     {
       id: 1,
@@ -11,7 +15,7 @@ const KpiCards = () => {
       color: deepPurple[700],
       bgColor: deepPurple[100],
       title: "sales",
-      value: "$40000",
+      value: `$${salesTotal}`,
     },
     {
       id: 2,
@@ -19,7 +23,7 @@ const KpiCards = () => {
       color: pink[700],
       bgColor: pink[100],
       title: "profit",
-      value: "$40000",
+      value: `$${profit}`,
     },
     {
       id: 3,
@@ -27,7 +31,7 @@ const KpiCards = () => {
       color: amber[700],
       bgColor: amber[100],
       title: "purhases",
-      value: "$400000000",
+      value: `$${purchasesTotal}`,
     },
   ];
   return (
@@ -40,9 +44,8 @@ const KpiCards = () => {
               gap: 3,
               p: 2,
               alignItems: "center",
-              justifyContent:"center",
-              width:"330px"
-              
+              justifyContent: "center",
+              width: "330px",
             }}
             elevation={5}
           >

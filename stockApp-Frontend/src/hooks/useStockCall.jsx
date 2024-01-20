@@ -7,6 +7,7 @@ import {
   getProdCatBrandsSuccess,
   getProdSalesBrandsSuccess,
   getProdFirmBrandsPruchasesSuccess,
+  getSalesPurchasesSuccess,
 } from "../features/stockSlice";
 import useAxios from "./useAxios";
 
@@ -61,6 +62,22 @@ const useStockCall = () => {
       dispatch(
         getProdSalesBrandsSuccess([products?.data, sales?.data, brands?.data])
       );
+    } catch (error) {
+      console.log(error);
+      dispatch(fetchFail());
+      toastErrorNotify(
+        error?.response?.data?.message || "Something went wrong"
+      );
+    }
+  };
+  const getSalesPurchases = async () => {
+    dispatch(fetchStart());
+    try {
+      const [sales, purchases] = await Promise.all([
+        axiosWithToken(`/sales`),
+        axiosWithToken(`/purchases`),
+      ]);
+      dispatch(getSalesPurchasesSuccess([sales?.data, purchases?.data]));
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
@@ -153,6 +170,7 @@ const useStockCall = () => {
     getProdCatBrands,
     getProdSalesBrands,
     getProdFirmBrandsPruchases,
+    getSalesPurchases,
   };
 };
 
