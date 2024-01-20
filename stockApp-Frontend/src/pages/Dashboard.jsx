@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import useAuthCall from "../hooks/useAuthCall";
 import Button from "@mui/material/Button";
 import { MenuListItems } from "../components/MenuListItems";
-import { Outlet, useParams } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Hidden from "@mui/material/Hidden";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -21,6 +21,7 @@ const drawerWidth = 220;
 export default function Dashboard() {
   const { logout } = useAuthCall();
   const currentUser = useSelector((state) => state.auth);
+
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
   const toggleMobileDrawer = () => {
@@ -44,9 +45,13 @@ export default function Dashboard() {
           </Typography>
 
           {currentUser && (
-            <Button color="inherit" onClick={() => logout()}>
-              Log out
-            </Button>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Typography variant="h6" mr={3} color="greenyellow">{currentUser.currentUser}</Typography>
+
+              <Button color="inherit" onClick={() => logout()}>
+                Logout
+              </Button>
+            </Box>
           )}
         </Toolbar>
       </AppBar>
