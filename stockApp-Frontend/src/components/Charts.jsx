@@ -1,22 +1,22 @@
-import { Card, Grid, LineChart, Title } from "@tremor/react";
+import { Card, LineChart, Title } from "@tremor/react";
+import { Grid } from "@mui/material";
 
+const dataFormatter = (number) =>
+  `${Intl.NumberFormat("us").format(number).toString()}`;
 const Charts = ({ sales, purchases }) => {
-  const dataFormatter = (number) =>
-    `${Intl.NumberFormat("us").format(number).toString()}`;
-
   const salesData = sales?.map((item) => ({
     date: item.createds,
-    price: +item.price_total,
+    price: Number(item.price_total),
     quantity: item.quantity,
   }));
   const purchaesData = purchases?.map((item) => ({
     date: item.createds,
-    price: +item.price_total,
+    price: Number(item.price_total),
     quantity: item.quantity,
   }));
   return (
-    <Grid container spacing={123456}>
-      <Grid key={1} item>
+    <Grid container spacing={5} justifyContent="center" mt={2}>
+      <Grid xs={12} md={6} item>
         <Card>
           <Title>Total Sales</Title>
           <LineChart
@@ -29,7 +29,7 @@ const Charts = ({ sales, purchases }) => {
           />
         </Card>
       </Grid>
-      <Grid key={2} item>
+      <Grid item xs={12} md={6}>
         <Card>
           <Title>Total Purchases</Title>
           <LineChart
