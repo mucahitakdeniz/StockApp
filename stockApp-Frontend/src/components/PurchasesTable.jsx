@@ -9,7 +9,7 @@ import EditIcon from "@mui/icons-material/Edit";
 const PurchasesTable = ({ handleOpen, setInfo }) => {
   const { purchases } = useSelector((state) => state.stock);
   const { deleteStockFunction } = useStockCall();
-
+  console.log(purchases);
   const columns = [
     { field: "id", headerName: "# ID", headerAling: "center", flex: 3 },
     {
@@ -80,8 +80,7 @@ const PurchasesTable = ({ handleOpen, setInfo }) => {
           icon={<EditIcon />}
           onClick={() => {
             handleOpen();
-
-            const purchase = purchases.filter((purchase) => purchase.id == id);
+            const purchase = purchases.filter((purchase) => purchase._id == id);
             console.log(purchase);
             setInfo({
               product_id: purchase[0]?.product_id?._id,
@@ -90,7 +89,7 @@ const PurchasesTable = ({ handleOpen, setInfo }) => {
               quantity: purchase[0]?.quantity,
               price: purchase[0]?.price,
               _id: purchase[0]?.id,
-              user_id: sale[0]?.user_id,
+              user_id: purchase[0]?.user_id,
             });
           }}
           label="Delete"

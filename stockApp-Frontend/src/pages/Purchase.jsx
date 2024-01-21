@@ -3,13 +3,11 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Box } from "@mui/material";
 import useStockCall from "../hooks/useStockCall";
-import { useSelector } from "react-redux";
 import PurchasesTable from "../components/PurchasesTable";
 import PurchasesModal from "../components/PuchasesModal";
 
 const Purchase = () => {
   const { getProdFirmBrandsPruchases } = useStockCall();
-  const { purchases } = useSelector((state) => state.stock);
   const [info, setInfo] = useState({
     brand_id: "",
     product_id: "",
