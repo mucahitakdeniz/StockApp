@@ -127,15 +127,11 @@ const useStockCall = () => {
   const createStockFunction = async (url, info) => {
     dispatch(fetchStart());
     try {
-      if (info.id) {
-        await axiosWithToken.put(`/${url}/${info.id}`, info);
-        toastSuccessNotify("Update process successful");
-      } else {
+   
         await axiosWithToken.post(`/${url}/`, info);
         toastSuccessNotify("Creation process successful");
-      }
+
       getStockFunction(url);
-      toastSuccessNotify("Creation process successful");
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());

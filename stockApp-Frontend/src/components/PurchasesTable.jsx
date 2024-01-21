@@ -6,7 +6,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { btnStyle } from "../styles/globasStyles";
 import useStockCall from "../hooks/useStockCall";
 import EditIcon from "@mui/icons-material/Edit";
-const PurchasesTable = ({ handleOpen,setInfo }) => {
+const PurchasesTable = ({ handleOpen, setInfo }) => {
   const { purchases } = useSelector((state) => state.stock);
   const { deleteStockFunction } = useStockCall();
 
@@ -89,7 +89,8 @@ const PurchasesTable = ({ handleOpen,setInfo }) => {
               brand_id: purchase[0]?.brand_id?._id,
               quantity: purchase[0]?.quantity,
               price: purchase[0]?.price,
-              id: purchase[0]?.id,
+              _id: purchase[0]?.id,
+              user_id: sale[0]?.user_id,
             });
           }}
           label="Delete"

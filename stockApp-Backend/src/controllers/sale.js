@@ -84,37 +84,43 @@ module.exports = {
                 schema: { $ref: '#/definitions/Sale' }
             }
         */
-    if (req.body?.price < 0) {
-      res.errorStatusCode = 400;
-      throw new Error("The price must be greater than 0");
-    }
-
-    if (req.body?.quantity) {
-      if (req.body?.quantity < 0) {
+    if (req.user?.is_superadmin || req.user._id == req.body.user_id) {
+      if (req.body?.price < 0) {
         res.errorStatusCode = 400;
-        throw new Error("The quantity must be greater than 0");
+        throw new Error("The price must be greater than 0");
       }
 
-      const currentSale = await Sale.findOne({ _id: req.params.id });
+      if (req.body?.quantity) {
+        if (req.body?.quantity < 0) {
+          res.errorStatusCode = 400;
+          throw new Error("The quantity must be greater than 0");
+        }
 
-      const quantity = req.body.quantity - currentSale.quantity;
+        const currentSale = await Sale.findOne({ _id: req.params.id });
 
-      const updateProduct = await Product.updateOne(
-        { _id: currentSale.product_id, stock: { $gte: quantity } },
-        { $inc: { stock: -quantity } }
+        const quantity = req.body.quantity - currentSale.quantity;
+
+        const updateProduct = await Product.updateOne(
+          { _id: currentSale.product_id, stock: { $gte: quantity } },
+          { $inc: { stock: -quantity } }
+        );
+        if (updateProduct.modifiedCount == 0) {
+          res.errorStatusCode = 422;
+          throw new Error("There are not enough products in stock");
+        }
+      }
+      const data = await Sale.updateOne({ _id: req.params.id }, req.body);
+
+      res.status(202).send({
+        data,
+        new: await Sale.findOne({ _id: req.params.id }),
+      });
+    } else {
+      res.errorStatusCode = 403;
+      throw new Error(
+        "You must either be an admin for this update or you had to create this process"
       );
-      if (updateProduct.modifiedCount == 0) {
-        res.errorStatusCode = 422;
-        throw new Error("There are not enough products in stock");
-      }
     }
-
-    const data = await Sale.updateOne({ _id: req.params.id }, req.body);
-
-    res.status(202).send({
-      data,
-      new: await Sale.findOne({ _id: req.params.id }),
-    });
   },
   delete: async (req, res) => {
     /*

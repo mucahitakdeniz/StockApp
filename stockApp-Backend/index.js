@@ -60,9 +60,10 @@ app.use(require('./src/routes'))
 
 // errorHandler:
 app.use(require('./src/middlewares/errorHandler'))
-
 // RUN SERVER:
 app.listen(PORT, HOST, () => console.log(`http://${HOST}:${PORT}`))
+
+
 
 // Syncronization (must be in commentLine):
 //require('./src/helpers/sync')() // !!! It clear database.

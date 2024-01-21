@@ -12,11 +12,15 @@ const PurchasesModal = ({ handleClose, open, info, setInfo }) => {
   const { products } = useSelector((state) => state.stock);
   const { brands } = useSelector((state) => state.stock);
   const { firms } = useSelector((state) => state.stock);
-  const { createStockFunction } = useStockCall();
+  const { createStockFunction, updateStockFunction } = useStockCall();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createStockFunction("purchases", info);
+    if (info._id) {
+      updateStockFunction("purchases", info);
+    } else {
+      createStockFunction("purchases", info);
+    }
     handleClose();
   };
 
@@ -53,7 +57,7 @@ const PurchasesModal = ({ handleClose, open, info, setInfo }) => {
               ))}
             </Select>
           </FormControl>
-        
+
           <FormControl fullWidth>
             <InputLabel id="brand">Brands</InputLabel>
             <Select
@@ -118,4 +122,4 @@ const PurchasesModal = ({ handleClose, open, info, setInfo }) => {
   );
 };
 
-export default PurchasesModal
+export default PurchasesModal;

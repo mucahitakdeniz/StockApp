@@ -11,11 +11,15 @@ import Select from "@mui/material/Select";
 const SaleModal = ({ handleClose, open, info, setInfo }) => {
   const { products } = useSelector((state) => state.stock);
   const { brands } = useSelector((state) => state.stock);
-  const { createStockFunction } = useStockCall();
+  const { createStockFunction, updateStockFunction } = useStockCall();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createStockFunction("sales", info);
+    if (info._id) {
+      updateStockFunction("sales",info);
+    } else {
+      createStockFunction("sales", info);
+    }
     handleClose();
   };
 

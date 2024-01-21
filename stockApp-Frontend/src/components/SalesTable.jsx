@@ -77,7 +77,8 @@ export default function SalesTable({ handleOpen, setInfo }) {
               brand_id: sale[0]?.brand_id_id?._id,
               quantity: sale[0]?.quantity,
               price: sale[0]?.price,
-              id: sale[0]?.id,
+              _id: sale[0]?.id,
+              user_id: sale[0]?.user_id,
             });
             handleOpen();
           }}
