@@ -56,9 +56,12 @@ module.exports = {
       res.status(200).send(data);
     } else {
       res.errorStatusCode = 422;
-      throw new Error("There are not enough products in stock", {
-        cause: currentProduct,
-      });
+      throw new Error(
+        `There are not enough products in stock. Available stock : ${currentProduct.stock} `,
+        {
+          cause: currentProduct,
+        }
+      );
     }
   },
   read: async (req, res) => {
@@ -106,7 +109,12 @@ module.exports = {
         );
         if (updateProduct.modifiedCount == 0) {
           res.errorStatusCode = 422;
-          throw new Error("There are not enough products in stock");
+          throw new Error(
+            `There are not enough products in stock. Available stock : ${currentSale.quantity} `,
+            {
+              cause: currentSale,
+            }
+          );
         }
       }
       const data = await Sale.updateOne({ _id: req.params.id }, req.body);
