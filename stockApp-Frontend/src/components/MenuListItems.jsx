@@ -18,7 +18,7 @@ import { useSelector } from "react-redux";
 const icons = [
   {
     icon: <SpaceDashboardIcon />,
-    title: "Dahboard",
+    title: "Dashboard",
     url: "/stock",
   },
   {
@@ -54,13 +54,15 @@ const icons = [
 ];
 
 export const MenuListItems = () => {
-  const [click, setClick] = useState("Dahboard");
+  const [click, setClick] = useState(null);
   const { isAdmin } = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
   const handleClick = (title, url) => {
     navigate(url);
     setClick(title);
+  
+    
   };
   return (
     <div>
