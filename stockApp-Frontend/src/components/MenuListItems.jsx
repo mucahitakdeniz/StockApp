@@ -10,8 +10,10 @@ import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import StoreIcon from "@mui/icons-material/Store";
 import SellIcon from "@mui/icons-material/Sell";
 import FactoryIcon from "@mui/icons-material/Factory";
+import GroupIcon from "@mui/icons-material/Group";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const icons = [
   {
@@ -44,10 +46,16 @@ const icons = [
     title: "Products",
     url: "/stock/products",
   },
+  {
+    icon: <GroupIcon />,
+    title: "Users",
+    url: "/stock/users",
+  },
 ];
 
 export const MenuListItems = () => {
   const [click, setClick] = useState("Dahboard");
+  const { isAdmin } = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
   const handleClick = (title, url) => {
@@ -57,33 +65,35 @@ export const MenuListItems = () => {
   return (
     <div>
       <List>
-        {icons.map((icon, index) => (
-          <ListItem
-            key={index}
-            disablePadding
-            onClick={() => {
-              handleClick(icon.title, icon.url);
-            }}
-            sx={{
-              color: click == icon.title ? "red" : "white",
-              "&:hover": { color: "red" },
-              "&:hover .MuiSvgIcon-root": { color: "red" },
-              backgroundColor: click == icon.title && "orange",
-            }}
-          >
-            <ListItemButton>
-              <ListItemIcon
-                sx={{
-                  color: click == icon.title ? "red" : "white",
-                  "&:hover": { color: "red" },
-                }}
-              >
-                {icon.icon}
-              </ListItemIcon>
-              <ListItemText primary={icon.title} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        {icons
+          .filter((icon) => isAdmin || icon.title !== "Users")
+          .map((icon, index) => (
+            <ListItem
+              key={index}
+              disablePadding
+              onClick={() => {
+                handleClick(icon.title, icon.url);
+              }}
+              sx={{
+                color: click == icon.title ? "red" : "white",
+                "&:hover": { color: "red" },
+                "&:hover .MuiSvgIcon-root": { color: "red" },
+                backgroundColor: click == icon.title && "orange",
+              }}
+            >
+              <ListItemButton>
+                <ListItemIcon
+                  sx={{
+                    color: click == icon.title ? "red" : "white",
+                    "&:hover": { color: "red" },
+                  }}
+                >
+                  {icon.icon}
+                </ListItemIcon>
+                <ListItemText primary={icon.title} />
+              </ListItemButton>
+            </ListItem>
+          ))}
       </List>
     </div>
   );
