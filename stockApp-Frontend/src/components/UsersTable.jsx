@@ -3,12 +3,12 @@ import Box from "@mui/material/Box";
 import { DataGrid, GridActionsCellItem, GridToolbar } from "@mui/x-data-grid";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { btnStyle } from "../styles/globasStyles";
-import useStockCall from "../hooks/useStockCall";
 import EditIcon from "@mui/icons-material/Edit";
+import useUserCall from "../hooks/useUserCall";
 
-const UsersTable = () => {
-
+const UsersTable = ({ handleOpen, setInfo }) => {
   const { users } = useSelector((state) => state.user);
+  const { deleteUserFunction,updateUserFunction } = useUserCall();
 
   const columns = [
     { field: "id", headerName: "# ID", headerAling: "center", flex: 2 },
@@ -53,8 +53,36 @@ const UsersTable = () => {
       type: "boolean",
       flex: 0.5,
     },
-  ];
+    {
+      field: "actions",
+      headerName: "Actions",
+      type: "actions",
+      headerAling: "center",
+      aling: "center",
+      getActions: ({ id }) => [
+        <GridActionsCellItem
+          icon={<EditIcon />}
+          onClick={() => {
+            const user = users?.filter((item) => item.id == id);
+            setInfo(user[0]);
+            handleOpen();
+          }}
+          label="Delete"
+          sx={btnStyle}
+        />,
+        <GridActionsCellItem
+          icon={<DeleteForeverIcon />}
+          onClick={() => {
+            deleteUserFunction(id);
+          }}
+          label="Delete"
+          sx={btnStyle}
+        />,
+      ],
 
+      flex: 2,
+    },
+  ];
 
   return (
     <Box sx={{ width: "100%" }}>

@@ -13,18 +13,9 @@ const userSlice = createSlice({
       state.loading = true;
       state.error = false;
     },
-
     getUserSuccess: (state, { payload }) => {
       state.loading = false;
       state.users = payload;
-    },
-    createUserSuccess: (state, { payload }) => {
-      state.loading = false;
-      state.users = payload.data;
-    },
-    updateUserSuccess: (state, { payload }) => {
-      state.loading = false;
-      state.users = payload.data;
     },
     fetchFail: (state) => {
       state.loading = false;

@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toastWarnNotify } from "../helper/ToastNotify";
 import { Typography } from "@mui/material";
 import UsersTable from "../components/UsersTable";
 import { useSelector } from "react-redux";
 import useUserCall from "../hooks/useUserCall";
+import UserModal from "../components/UserModal";
 
 const Users = () => {
   const { getUserFunction } = useUserCall();
@@ -12,6 +13,31 @@ const Users = () => {
 
   const navigate = useNavigate();
 
+  const [info, setInfo] = useState({
+    id: "1",
+    username: "",
+    email: "",
+    first_name: "",
+    last_name: "",
+    is_active: "",
+    is_staff: "",
+    is_superadmin: "",
+  });
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setOpen(false);
+    setInfo({
+      id: "",
+      username: "",
+      email: "",
+      first_name: "",
+      last_name: "",
+      is_active: "",
+      is_staff: "",
+      is_superadmin: "",
+    });
+  };
   useEffect(() => {
     if (!isAdmin) {
       toastWarnNotify("You must admin");
@@ -25,8 +51,14 @@ const Users = () => {
       <Typography variant="h4" color={"error"} mb={5}>
         Users
       </Typography>
+      <UserModal
+        info={info}
+        setInfo={setInfo}
+        handleClose={handleClose}
+        open={open}
+      />
 
-      <UsersTable />
+      <UsersTable handleOpen={handleOpen} setInfo={setInfo} />
     </div>
   );
 };

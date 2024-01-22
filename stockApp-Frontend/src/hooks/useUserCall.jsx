@@ -1,10 +1,5 @@
-import {
-  fetchStart,
-  fetchFail,
-  createUserSuccess,
-  updateUserSuccess,
-  getUserSuccess,
-} from "../features/userSlice";
+import { fetchStart, fetchFail, getUserSuccess } from "../features/userSlice";
+import { toastErrorNotify, toastSuccessNotify } from "../helper/ToastNotify";
 import { useDispatch } from "react-redux";
 
 import useAxios from "./useAxios";
@@ -13,19 +8,42 @@ const useUserCall = () => {
   const { axiosWithToken } = useAxios();
   const dispatch = useDispatch();
 
-
   const getUserFunction = async () => {
     dispatch(fetchStart());
     try {
-      const { data } = await axiosWithToken.get("users")
-      dispatch(getUserSuccess(data))
+      const { data } = await axiosWithToken.get("users");
+      dispatch(getUserSuccess(data));
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
     }
   };
-  
-  return { getUserFunction };
+  const updateUserFunction = async (id, info) => {
+    dispatch(fetchStart());
+    try {
+      await axiosWithToken.put(`users/${id}`, info);
+      getUserFunction();
+      toastSuccessNotify("User updated");
+    } catch (error) {
+      console.log(error);
+      toastErrorNotify("Failed to update user");
+      dispatch(fetchFail());
+    }
+  };
+  const deleteUserFunction = async (id) => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axiosWithToken.delete(`/users/${id}`);
+      getUserFunction();
+      toastSuccessNotify("User deleted");
+    } catch (error) {
+      console.log(error);
+      toastErrorNotify("Failed to delete user");
+      dispatch(fetchFail());
+    }
+  };
+
+  return { getUserFunction, deleteUserFunction, updateUserFunction };
 };
 
 export default useUserCall;
