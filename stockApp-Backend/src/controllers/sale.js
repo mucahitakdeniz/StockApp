@@ -135,17 +135,24 @@ module.exports = {
             #swagger.tags = ["Sales"]
             #swagger.summary = "Delete Sale"
         */
-    const currentSale = await Sale.findOne({ _id: req.params.id });
+    if (req.user?.is_superadmin || req.user._id == req.body.user_id) {
+      const currentSale = await Sale.findOne({ _id: req.params.id });
 
-    const data = await Sale.deleteOne({ _id: req.params.id });
-    const updataProduct = await Product.updateOne(
-      { _id: currentSale.product_id },
-      { $inc: { stock: currentSale.quantity } }
-    );
+      const data = await Sale.deleteOne({ _id: req.params.id });
+      const updataProduct = await Product.updateOne(
+        { _id: currentSale.product_id },
+        { $inc: { stock: currentSale.quantity } }
+      );
 
-    res.status(data.deletedCount ? 204 : 404).send({
-      error: !data.deletedCount,
-      data,
-    });
+      res.status(data.deletedCount ? 204 : 404).send({
+        error: !data.deletedCount,
+        data,
+      });
+    } else {
+      res.errorStatusCode = 403;
+      throw new Error(
+        "You must either be an admin for this update or you had to delete this process"
+      );
+    }
   },
 };
