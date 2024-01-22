@@ -135,9 +135,13 @@ module.exports = {
             #swagger.tags = ["Sales"]
             #swagger.summary = "Delete Sale"
         */
-    if (req.user?.is_superadmin || req.user._id == req.body.user_id) {
-      const currentSale = await Sale.findOne({ _id: req.params.id });
 
+    const currentSale = await Sale.findOne({ _id: req.params.id });
+
+    if (
+      req.user?.is_superadmin ||
+      req.user._id == currentSale?.user_id.toString()
+    ) {
       const data = await Sale.deleteOne({ _id: req.params.id });
       const updataProduct = await Product.updateOne(
         { _id: currentSale.product_id },

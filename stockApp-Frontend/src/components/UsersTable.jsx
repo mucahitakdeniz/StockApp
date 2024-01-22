@@ -7,6 +7,9 @@ import useStockCall from "../hooks/useStockCall";
 import EditIcon from "@mui/icons-material/Edit";
 
 const UsersTable = () => {
+
+  const { users } = useSelector((state) => state.user);
+
   const columns = [
     { field: "id", headerName: "# ID", headerAling: "center", flex: 2 },
     {
@@ -52,8 +55,7 @@ const UsersTable = () => {
     },
   ];
 
-  const { users } = useSelector((state) => state.user);
-  console.log(users);
+
   return (
     <Box sx={{ width: "100%" }}>
       <DataGrid

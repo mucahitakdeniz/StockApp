@@ -9,7 +9,6 @@ import EditIcon from "@mui/icons-material/Edit";
 const PurchasesTable = ({ handleOpen, setInfo }) => {
   const { purchases } = useSelector((state) => state.stock);
   const { deleteStockFunction } = useStockCall();
-  console.log(purchases);
   const columns = [
     { field: "id", headerName: "# ID", headerAling: "center", flex: 3 },
     {

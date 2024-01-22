@@ -121,16 +121,26 @@ module.exports = {
             #swagger.tags = ["Purchases"]
             #swagger.summary = "Delete Purchase"
         */
-    const currentPurchase = await Purchase.findOne({ _id: req.params.id });
-    const data = await Purchase.deleteOne({ _id: req.params.id });
-    const updateProduct = await Product.updateOne(
-      { _id: currentPurchase.product_id },
-      { $inc: { stock: -currentPurchase.quantity } }
-    );
+    const currentPurchase = await Purchase.findOne({ _id: req?.params?.id });
+    if (
+      req.user?.is_superadmin ||
+      req.user._id == currentPurchase?.user_id.toString()
+    ) {
+      const data = await Purchase.deleteOne({ _id: req.params.id });
+      const updateProduct = await Product.updateOne(
+        { _id: currentPurchase.product_id },
+        { $inc: { stock: -currentPurchase.quantity } }
+      );
 
-    res.status(data.deletedCount ? 204 : 404).send({
-      error: !data.deletedCount,
-      data,
-    });
+      res.status(data.deletedCount ? 204 : 404).send({
+        error: !data.deletedCount,
+        data,
+      });
+    } else {
+      res.errorStatusCode = 403;
+      throw new Error(
+        "You must either be an admin for this update or you had to delete this process"
+      );
+    }
   },
 };

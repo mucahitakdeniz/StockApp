@@ -17,8 +17,8 @@ const useUserCall = () => {
   const getUserFunction = async () => {
     dispatch(fetchStart());
     try {
-      const { data } = await axiosWithToken.get("users");
-      dispatch(getUserSuccess(data));
+      const { data } = await axiosWithToken.get("users")
+      dispatch(getUserSuccess(data))
     } catch (error) {
       console.log(error);
       dispatch(fetchFail());
