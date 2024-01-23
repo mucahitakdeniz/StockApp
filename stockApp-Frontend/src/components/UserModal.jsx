@@ -14,10 +14,9 @@ const UserModal = ({ handleClose, open, info, setInfo }) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateUserFunction(info.id, info);
+    updateUserFunction(info._id, info);
     handleClose()
   };
-  console.log(info);
   return (
     <Modal
       open={open}
@@ -31,8 +30,6 @@ const UserModal = ({ handleClose, open, info, setInfo }) => {
           component="form"
           onSubmit={handleSubmit}
         >
-          <Typography>{`ID: ${info?.id}`}</Typography>
-
           <TextField
             label="User Name"
             id="username"
@@ -73,7 +70,7 @@ const UserModal = ({ handleClose, open, info, setInfo }) => {
             onChange={handleChange}
             required
           />
-          {/* <FormControl fullWidth>
+          <FormControl fullWidth>
             <InputLabel id="actice">Active</InputLabel>
             <Select
               labelId="is_active"
@@ -104,7 +101,7 @@ const UserModal = ({ handleClose, open, info, setInfo }) => {
                 </MenuItem>
               ))}
             </Select>
-          </FormControl> */}
+          </FormControl>
           <Button variant="contained" type="submit">
             Submit
           </Button>

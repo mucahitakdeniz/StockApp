@@ -8,7 +8,7 @@ import useUserCall from "../hooks/useUserCall";
 
 const UsersTable = ({ handleOpen, setInfo }) => {
   const { users } = useSelector((state) => state.user);
-  const { deleteUserFunction,updateUserFunction } = useUserCall();
+  const { deleteUserFunction } = useUserCall();
 
   const columns = [
     { field: "id", headerName: "# ID", headerAling: "center", flex: 2 },
@@ -64,7 +64,15 @@ const UsersTable = ({ handleOpen, setInfo }) => {
           icon={<EditIcon />}
           onClick={() => {
             const user = users?.filter((item) => item.id == id);
-            setInfo(user[0]);
+            setInfo({
+              username: user[0]?.username,
+              email: user[0]?.email,
+              first_name: user[0]?.first_name,
+              last_name: user[0]?.last_name,
+              is_active: user[0]?.is_active,
+              is_staff: user[0]?.is_staff,
+              _id: user[0]?._id,
+            });
             handleOpen();
           }}
           label="Delete"

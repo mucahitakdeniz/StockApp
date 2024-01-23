@@ -20,8 +20,9 @@ const useUserCall = () => {
   };
   const updateUserFunction = async (id, info) => {
     dispatch(fetchStart());
+    console.log("info :", info);
     try {
-      await axiosWithToken.put(`users/${id}`, info);
+      await axiosWithToken.patch(`users/${id}`, info);
       getUserFunction();
       toastSuccessNotify("User updated");
     } catch (error) {

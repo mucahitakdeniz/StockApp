@@ -83,33 +83,37 @@ const UserShema = new mongoose.Schema(
   { collection: "users", timestamps: true }
 );
 
-const pasEnc = require("../helpers/passwordEncrypt");
+const passwordEncrypt = require("../helpers/passwordEncrypt");
 
-// save || update
 UserShema.pre(["save", "updateOne"], function (next) {
-  const data = this._update || this;
 
-  //email validation
+  const data = this?._update || this;
+
   const isEmailValidated = data.email
-    ? /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(data.email)
+    ? /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(data.email) // test from "data".
     : true;
 
-  // pasword validation
-  const isPasswordValidated = data.password
-    ? /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-+_]).{8,}$/.test(
-        data.password
-      )
-    : true;
+  if (isEmailValidated) {
+    if (data?.password) {
+      const isPasswordValidated =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/.test(
+          data.password
+        );
 
-  if (isEmailValidated && isPasswordValidated) {
-    this.password = pasEnc(data.password);
-    this._update = data;
-    next();
+      if (isPasswordValidated) {
+        this.password = data.password = passwordEncrypt(data.password);
+        this._update = data;
+      } else {
+        next(new Error("Password not validated."));
+      }
+    }
+
+    next(); 
   } else {
-    if (!isEmailValidated) next("Email not validated");
-    if (!isPasswordValidated) next("Password not validated");
+    next(new Error("Email not validated."));
   }
 });
+
 
 //  perform an action before initialization
 

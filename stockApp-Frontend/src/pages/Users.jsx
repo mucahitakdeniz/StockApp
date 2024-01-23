@@ -14,28 +14,24 @@ const Users = () => {
   const navigate = useNavigate();
 
   const [info, setInfo] = useState({
-    id: "1",
     username: "",
     email: "",
     first_name: "",
     last_name: "",
     is_active: "",
     is_staff: "",
-    is_superadmin: "",
   });
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
     setInfo({
-      id: "",
       username: "",
       email: "",
       first_name: "",
       last_name: "",
       is_active: "",
       is_staff: "",
-      is_superadmin: "",
     });
   };
   useEffect(() => {
