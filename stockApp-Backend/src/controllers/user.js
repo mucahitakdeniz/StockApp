@@ -85,14 +85,13 @@ module.exports = {
                 }
             }
         */
-
-    req.body.is_staff =
-      req.user?.is_superadmin || !req.user?.is_staff
-        ? req.body.is_staff
-        : false;
     req.body.is_superadmin = req.user?.is_superadmin
       ? req.body.is_superadmin
       : false;
+
+    if (!req.user.is_superadmin) {
+      req.body.is_staff = req.user?.is_staff
+    }
 
     const filters = req.user?.is_superadmin
       ? { _id: req.params.id }
