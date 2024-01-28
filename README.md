@@ -6,9 +6,9 @@ Stock App
 
 https://stock-app-3gr3.onrender.com/
 
-## Live Project Link - Frontend
+## Live Project Link - Backend
 
-https://stockapp-backend.onrender.com/
+[https://stockapp-backend.onrender.com/](https://stockapp-backend-six.vercel.app/
 
 ## Proje Açıklaması
 
