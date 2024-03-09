@@ -23,7 +23,7 @@ Staff: Can be created through the registration process and requires approval by 
 
 For those who want to test the application, here is an example staff account.
 
-email: test€site.com
+email: test@site.com
 password: aA?123456
 
 Feel free to explore the functionality of the Stock App!
